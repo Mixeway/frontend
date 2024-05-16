@@ -56,6 +56,12 @@ import {VulnTrendStatisticsComponent} from './vuln-trend-analytics/vuln-trend-st
 import {VulnTrendAnalyticsChartComponent} from './vuln-trend-analytics/vuln-trend-analytics-chart/vuln-trend-analytics-chart.component';
 import {SlideOutComponent} from './slide-out/slide-out.component';
 import {DetailsVulnsComponent} from './details-vulns/details-vulns.component';
+import { MetricComponent } from './metric/metric.component';
+import {AssetTypeComponent} from './AssetTypeComponent';
+import {AssetTargetComponent} from './AssetTargetComponent';
+import {AssetScopeComponent} from './AssetScopeComponent';
+import {AssetVulnerabilitiesComponent} from './AssetVulnerabilityComponent';
+import {LocationRendererComponent} from './LocationRendererComponent';
 
 const COMPONENTS = [
   ExtraComponentsComponent,
@@ -87,6 +93,11 @@ const COMPONENTS = [
   VulnTrendStatisticsComponent,
   VulnTrendAnalyticsChartComponent,
   SlideOutComponent,
+  AssetTypeComponent,
+  AssetTargetComponent,
+  AssetScopeComponent,
+  AssetVulnerabilitiesComponent,
+  LocationRendererComponent,
 ];
 
 const MODULES = [
@@ -124,6 +135,7 @@ const MODULES = [
     CiOperationsComponent,
     CiOperationsListElementComponent,
     DetailsVulnsComponent,
+    MetricComponent,
   ],
   entryComponents: [
     MixerProgresComponent,
@@ -146,6 +158,7 @@ const MODULES = [
         VulnTrendAnalyticsComponent,
         DetailsVulnsComponent,
         SlideOutComponent,
+        MetricComponent,
     ],
 })
 export class ExtraComponentsModule { }

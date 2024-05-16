@@ -14,6 +14,7 @@ import {VulnTrendChart} from '../../@core/Model/VulnTrendChart';
 import {Severities} from '../../@core/Model/Severities';
 import {ProjectStats} from '../../@core/Model/ProjectStats';
 import {ProjectUser} from '../../@core/Model/ProjectUser';
+import {Codes} from '../../@core/Model/Codes';
 
 
 @Component({
@@ -47,6 +48,11 @@ export class ShowProjectComponent implements OnInit {
   severities: Severities;
   severitiesChartData: any = [];
   projectStats: ProjectStats;
+  codes: Codes;
+  assetNumber: number = 0;
+  offset: number = 0;
+  vulnsNumber: string = '0';
+  vulnsColor: string = 'success';
 
   private vulnAuditorForm: any;
   private projectUserForm: any;
@@ -65,6 +71,8 @@ export class ShowProjectComponent implements OnInit {
     this.loadCiOperations();
     this.loadTrendChartData();
     this.loadProjectStats();
+    this.loadCodes();
+    this.updateOffset();
     this.vulnAuditorForm = this.formBuilder.group({
       enableVulnAuditor: this.projectInfo.vulnAuditorEnable,
       dclocation: this.projectInfo.networkdc,
@@ -109,6 +117,22 @@ export class ShowProjectComponent implements OnInit {
   loadProjectStats() {
     return this.showProjectService.getProjectStats(this._entityId).subscribe(data => {
       this.projectStats = data;
+      if (this.projectStats.vulnCrit > 0 ) {
+        const numberOfVulns = this.projectStats.vulnCrit + this.projectStats.vulnMedium + this.projectStats.vulnLow;
+        this.vulnsNumber = numberOfVulns > 99 ? '99+' : numberOfVulns + '';
+        this.vulnsColor = 'danger';
+      } else if (this.projectStats.vulnMedium > 0) {
+        const numberOfVulns = this.projectStats.vulnCrit + this.projectStats.vulnMedium + this.projectStats.vulnLow;
+        this.vulnsNumber = numberOfVulns > 99 ? '99+' : numberOfVulns + '';
+        this.vulnsColor = 'warning';
+      } else if (this.projectStats.vulnLow > 0) {
+        const numberOfVulns = this.projectStats.vulnCrit + this.projectStats.vulnMedium + this.projectStats.vulnLow;
+        this.vulnsNumber = numberOfVulns > 99 ? '99+' : numberOfVulns + '';
+        this.vulnsColor = 'primary';
+      } else {
+        this.vulnsNumber = '0';
+        this.vulnsColor = 'success';
+      }
     });
   }
   drawRiskCards(id) {
@@ -158,6 +182,7 @@ export class ShowProjectComponent implements OnInit {
     this.role = this.cookieService.get('role');
     this.showConfigTemplate = this.role !== 'ROLE_ADMIN' && this.role !== 'ROLE_EDITOR_RUNNER';
     this.showVulnAuditor = true;
+    this.loadCodes();
     this.showDetailsTemplate = true;
     this.cdRef.detectChanges();
   }
@@ -223,5 +248,25 @@ export class ShowProjectComponent implements OnInit {
 
   toggleView() {
     this.flipped = !this.flipped;
+  }
+  loadCodes() {
+    return this.showProjectService.getCodes(this._entityId).subscribe(data => {
+      this.codes = data;
+      this.assetNumber = this.assetNumber + this.codes.codeModels.length;
+      this.updateOffset();
+    });
+  }
+  updateOffset() {
+    if (this.assetNumber === 1) {
+      this.offset = 5;
+    } else if (this.assetNumber === 2) {
+      this.offset = 4;
+    } else if (this.assetNumber === 3) {
+      this.offset = 3;
+    } else if (this.assetNumber === 4) {
+      this.offset = 2;
+    } else if (this.assetNumber === 5) {
+      this.offset = 1;
+    }
   }
 }

@@ -1,0 +1,81 @@
+@import '../../../@theme/styles/themes';
+
+@include nb-install-component() {
+
+  .picture {
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    border-top-left-radius: nb-theme(card-border-radius);
+    border-top-right-radius: nb-theme(card-border-radius);
+    flex: 1;
+  }
+
+  .details {
+    padding: nb-theme(card-padding);
+  }
+
+  .description {
+    text-align: justify;
+  }
+
+  nb-card-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  .link-icon {
+    font-size: 1.75rem;
+  }
+
+  nb-icon {
+    font-size: 1.55rem;
+
+    ::ng-deep svg {
+      vertical-align: top;
+    }
+  }
+
+}
+
+
+::ng-deep {
+  ng2-st-tbody-edit-delete {
+    display: none;
+    height: 0 !important;
+  }
+
+  ng2-st-tbody-custom {
+    display: flex;
+    text-align: center;
+  }
+}
+.icon-small {
+  font-size: 12px; // Zmniejszenie rozmiaru ikon
+}
+
+.icon-thin {
+  stroke-width: 1px; // Zmniejszenie grubości linii ikony (dla ikon SVG)
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .app-entry {
+      display: flex;
+      gap: 1rem;
+      align-items: center; /* Align items to the same baseline */
+    }
+  }
+
+  .form-field {
+    width: 100%; /* Ensure form fields take full available width */
+  }
+}

@@ -7,11 +7,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/dashboard',
   },
   {
-    title: 'Dashboard - Statistics',
-    icon: 'globe-2-outline',
-    link: '/pages/dashboard-stat',
-  },
-  {
     title: 'Statistics',
     group: true,
   },

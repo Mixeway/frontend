@@ -1,0 +1,32 @@
+<div class="lists row">
+  <div class="col-md-12 col-lg-12 col-xxxl-12">
+    <nb-card class="list-card" size="large">
+      <nb-card-header>List of scans related with project</nb-card-header>
+      <nb-list>
+        <nb-list-item *ngFor="let scan of scans">
+          <div class="row col-md-12">
+            <div class="col-md-3 date-source">
+              <h5>{{ scan.date }}</h5>
+              <span class="source">By: {{ scan.source }}</span>
+            </div>
+            <div class="col-md-3 scan-type">
+              Scan Type: <span [ngClass]="getScanTypeClass(scan.type)">{{ scan.type }}</span>
+            </div>
+            <div class="col-md-3 branch-commit">
+              <span class="branch">{{ scan.branch }}</span><br />
+              <small class="commitId">commitid: {{ scan.commitId }}</small>
+            </div>
+            <div class="col-md-3 vulnerabilities">
+              <div class="vulnerability-counts">
+                <button nbButton status="danger">{{ scan.critVulns }}</button>
+                <button nbButton status="warning">{{ scan.mediumVulns }}</button>
+                <button nbButton status="success">{{ scan.lowVulns }}</button>
+              </div>
+              <small>Vulnerabilities detected</small>
+            </div>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+</div>

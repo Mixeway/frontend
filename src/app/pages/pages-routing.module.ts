@@ -15,6 +15,7 @@ import {KnowlegeBaseComponent} from './knowlege-base/knowlege-base.component';
 import {ScansComponent} from './scans/scans.component';
 import {GlobalStatisticComponent} from './global-statistic/global-statistic.component';
 import {StatsDashboardComponent} from './stats-dashboard/stats-dashboard.component';
+import {ShowAssetComponent} from './show-asset/show-asset.component';
 
 const routes: Routes = [{
   path: '',
@@ -31,6 +32,10 @@ const routes: Routes = [{
     {
       path: 'show/project/:projectid',
       component: ShowProjectComponent,
+    },
+    {
+      path: 'show/asset/:assetid',
+      component: ShowAssetComponent,
     },
     {
       path: 'vulns',

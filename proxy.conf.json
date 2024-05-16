@@ -44,6 +44,6 @@
     "pathRewrite": {
       "^/api": ""
     },
-    "headers": {"Host":"localhost:4200"}
+    "headers": {"Host":"localhost:4200","X-Forwarded-Host": "localhost:4200"}
   }
 }

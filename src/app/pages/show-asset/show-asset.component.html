@@ -1,0 +1,145 @@
+<a href="/">Dashboard</a> / <a href="/pages/show/project/123">Root Project</a> / My Project <br/> <br/>
+<nb-card>
+  <nb-card-body>
+
+    <nb-tabset>
+      <nb-tab tabTitle="Dashboard" tabIcon="archive-outline" responsive>
+        <div class="row">
+          <nb-card class="col-md-8">
+            <nb-card-body>
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+                <!-- Project Name -->
+                <h2 style="margin-bottom: 1rem;">{{ project.name }}</h2>
+
+                <!-- Icon and Location -->
+                <a nbButton [href]="project.location" target="_blank" style="display: flex; align-items: center;">
+                  <nb-icon icon="{{ project.icon }}"></nb-icon>
+                  <span style="margin-left: 0.5rem;">{{ project.location }}</span>
+                </a>
+
+                <!-- Date of Creation -->
+                <small style="margin-top: 1rem;">Default branch: master</small>
+                <small style="margin-top: 1rem;">Created: {{ project.createdAt | date }}</small>
+              </div>
+            </nb-card-body>
+          </nb-card>
+
+          <div class="col-md-4">
+            <ngx-ci-operations [ciOperations]="ciOperations" [chartValue]="ciOperationSuccessRate"></ngx-ci-operations>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <nb-card>
+              <nb-card-header>
+                <div class="d-flex justify-content-between">
+                  <h4>Security gateway:</h4>
+                  <button nbButton status="danger">Danger</button>
+                </div>
+              </nb-card-header>
+            </nb-card>
+          </div>
+          <div class="col-md-6">
+            <nb-card>
+              <nb-card-header>
+                <div class="d-flex justify-content-between">
+                  <h4>Vulnerabilities:</h4>
+                  <button nbButton status="danger">1</button>
+                  <button nbButton status="warning">2</button>
+                  <button nbButton status="info">3</button>
+                  <button nbButton status="primary">4</button>
+                </div>
+              </nb-card-header>
+            </nb-card>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <nb-card >
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card-title" nbTooltip="test">Issues</div>
+                    <div class="card-subtitle">Solved issues</div>
+                    <div class="avg">Total: 24</div>
+                  </div>
+                  <div class="col-8 d-flex flex-column justify-content-center0.00.">
+                      <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
+                      <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
+                      <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
+                      <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <div class="col-md-4">
+            <nb-card >
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card-title" nbTooltip="test">TTR</div>
+                    <div class="card-subtitle">Time to resolve [days]</div>
+                    <div class="avg">Avg: 24</div>
+                  </div>
+                  <div class="col-8 d-flex flex-column justify-content-center0.00.">
+                    <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+          <div class="col-md-4">
+            <nb-card >
+              <nb-card-body>
+                <div class="row">
+                  <div class="col-4">
+                    <div class="card-title" nbTooltip="test">Revieved</div>
+                    <div class="card-subtitle">Number of revieved issues</div>
+                    <div class="avg">Total: 24</div>
+                  </div>
+                  <div class="col-8 d-flex flex-column justify-content-center0.00.">
+                    <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
+                    <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                  </div>
+                </div>
+              </nb-card-body>
+            </nb-card>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <ngx-vuln-trend-area-stack></ngx-vuln-trend-area-stack>
+          </div>
+          <div class="col-md-4">
+            <ngx-new-vulns></ngx-new-vulns>
+          </div>
+        </div>
+
+      </nb-tab>
+      <nb-tab tabTitle="Vulnerabilities" tabIcon="alert-triangle-outline" responsive>
+        <label for="branch_id">Branch: </label>
+        <nb-select id="branch_id" [(selected)]="branch" size="large">
+          <nb-option value="option1">Option 1</nb-option>
+          <nb-option value="option2">Option 2</nb-option>
+        </nb-select><br/><br/>
+        <ngx-asset-vulns-table></ngx-asset-vulns-table>
+      </nb-tab>
+      <nb-tab tabTitle="Scans" tabIcon="search-outline" responsive>
+        <ngx-asset-scans></ngx-asset-scans>
+      </nb-tab>
+      <nb-tab tabTitle="CICD" tabIcon="play-circle-outline" responsive>
+        <ngx-asset-cicd></ngx-asset-cicd>
+      </nb-tab>
+    </nb-tabset>
+
+  </nb-card-body>
+</nb-card>
+
+
+

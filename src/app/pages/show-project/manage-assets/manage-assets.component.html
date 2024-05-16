@@ -1,0 +1,168 @@
+<button  nbButton status="success" hero (click)="openCreateApiDialog(addAsset,'')" >
+  ADD NEW <nb-icon icon="plus" pack="eva" [options]="{ animation: { type: 'shake' } }"></nb-icon>
+</button>
+
+<ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustomAction($event)"></ng2-smart-table>
+
+<ng-template #addAsset let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Create asset</nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="assetForm" class="form">
+        <nb-select fullWidth placeholder="Select Asset Type" formControlName="assetType" class="form-field">
+          <nb-option value="sourceCodeApp">Source Code App</nb-option>
+          <nb-option value="webApplication">Web Application</nb-option>
+          <nb-option value="networkAsset">Network Asset</nb-option>
+        </nb-select>
+
+        <div *ngIf="assetForm.get('assetType').value === 'sourceCodeApp'" class="form-group">
+          <nb-form-field class="form-field">
+            <nb-icon nbPrefix icon="github-outline"></nb-icon>
+            <input nbInput fullWidth type="text" placeholder="Name" formControlName="name" nbTooltip="Enter the name of the source code application.">
+          </nb-form-field>
+
+          <nb-form-field class="form-field">
+            <nb-icon nbPrefix icon="link-outline"></nb-icon>
+            <input nbInput fullWidth type="url" placeholder="Repository URL" formControlName="repositoryUrl" nbTooltip="Enter the URL of the repository.">
+            <nb-icon nbSuffix *ngIf="assetForm.get('repositoryUrl').hasError('pattern')" icon="close-circle-outline" status="danger"></nb-icon>
+          </nb-form-field>
+
+          <nb-form-field class="form-field">
+            <input nbInput fullWidth type="text" placeholder="Default Branch" formControlName="defaultBranch" nbTooltip="Enter the name of the default branch.">
+          </nb-form-field>
+
+          <nb-radio-group formControlName="repositoryType" class="form-field">
+            <nb-radio value="single" nbTooltip="Select if the repository contains a single application.">Single App</nb-radio>
+            <nb-radio value="multiple" nbTooltip="Select if the repository contains multiple applications.">Multiple Apps</nb-radio>
+          </nb-radio-group>
+
+          <div *ngIf="assetForm.get('repositoryType').value === 'multiple'" formArrayName="apps" class="form-group mt-3">
+            <div *ngFor="let app of apps.controls; let i = index" [formGroupName]="i" class="app-entry">
+              <nb-form-field>
+                <input nbInput fullWidth type="text" placeholder="App Name" formControlName="appName" nbTooltip="Enter the name of the application.">
+              </nb-form-field>
+              <nb-form-field>
+                <input nbInput fullWidth type="text" placeholder="App Directory" formControlName="appDirectory" nbTooltip="Enter the directory of the application within the repository.">
+              </nb-form-field>
+              <button nbButton status="danger" (click)="removeApp(i)">
+                <nb-icon icon="trash-2-outline"></nb-icon>
+              </button>
+            </div>
+            <button nbButton status="primary" (click)="addApp()">
+              <nb-icon icon="plus-outline"></nb-icon>
+            </button>
+          </div>
+          <button nbButton *ngIf="assetForm.get('assetType').valid" (click)="onSubmit(ref)" status="primary">Submit</button>
+        </div>
+
+        <div *ngIf="assetForm.get('assetType').value === 'webApplication'" class="form-group">
+          <nb-form-field class="form-field">
+            <input nbInput fullWidth type="text" placeholder="App Name" formControlName="appName" nbTooltip="Enter the name of the web application.">
+          </nb-form-field>
+
+          <nb-form-field class="form-field">
+            <nb-icon nbPrefix icon="link-outline"></nb-icon>
+            <input nbInput fullWidth type="url" placeholder="App URL" formControlName="appUrl" nbTooltip="Enter the URL of the web application.">
+          </nb-form-field>
+
+          <nb-select fullWidth placeholder="Authentication" formControlName="authentication" class="form-field" nbTooltip="Select the authentication method for the web application.">
+            <nb-option value="header">Header</nb-option>
+            <nb-option value="apikey">API Key</nb-option>
+            <nb-option value="basicAuth">Basic Auth</nb-option>
+            <nb-option value="none">None</nb-option>
+          </nb-select>
+
+          <nb-form-field *ngIf="assetForm.get('authentication').value === 'header'" class="form-field">
+            <input nbInput fullWidth type="text" placeholder="Header Name" formControlName="headerName" nbTooltip="Enter the name of the authentication header.">
+          </nb-form-field>
+
+          <nb-form-field *ngIf="assetForm.get('authentication').value === 'apikey'" class="form-field">
+            <input nbInput fullWidth type="text" placeholder="API Key Name" formControlName="apiKeyName" nbTooltip="Enter the name of the API key.">
+          </nb-form-field>
+
+          <nb-form-field *ngIf="assetForm.get('authentication').value === 'basicAuth'" class="form-field">
+            <input nbInput fullWidth type="text" placeholder="Basic Auth" formControlName="basicAuth" nbTooltip="Enter the basic authentication credentials.">
+          </nb-form-field>
+
+          <nb-select fullWidth placeholder="Routing Domain" formControlName="routingDomain" class="form-field" nbTooltip="Select the routing domain for the web application.">
+            <nb-option value="1">1</nb-option>
+            <nb-option value="2">2</nb-option>
+            <nb-option value="3">3</nb-option>
+          </nb-select>
+          <button nbButton *ngIf="assetForm.get('assetType').valid" (click)="onSubmit(ref)" status="primary">Submit</button>
+        </div>
+
+        <div *ngIf="assetForm.get('assetType').value === 'networkAsset'" class="form-group">
+          <nb-form-field class="form-field">
+            <input nbInput fullWidth type="text" placeholder="Name" formControlName="name" nbTooltip="Enter the name of the network asset.">
+          </nb-form-field>
+
+          <nb-form-field class="form-field">
+            <input nbInput fullWidth type="text" placeholder="IP" formControlName="ip" nbTooltip="Enter the IP address of the network asset.">
+          </nb-form-field>
+
+          <nb-select fullWidth placeholder="Routing Domain" formControlName="routingDomain" class="form-field" nbTooltip="Select the routing domain for the network asset.">
+            <nb-option value="1">1</nb-option>
+            <nb-option value="2">2</nb-option>
+            <nb-option value="3">3</nb-option>
+          </nb-select>
+          <button nbButton *ngIf="assetForm.get('assetType').valid" (click)="onSubmit(ref)" status="primary">Submit</button>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
+<ng-template #editAsset let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Edit Asset</nb-card-header>
+    <nb-card-body>
+      <form [formGroup]="editForm" (ngSubmit)="onSaveEdit(ref)" class="form">
+        <div *ngIf="selectedAsset.type === 'codeProject'" class="form-group">
+
+          <nb-form-field  class="form-field">
+            <input nbInput class="form-field" fullWidth type="text" placeholder="Name" formControlName="name" nbTooltip="Name of the Code Project.">
+          </nb-form-field>
+
+          <nb-form-field  class="form-field">
+            <input nbInput class="form-field" fullWidth type="text" placeholder="Repository URL" formControlName="target" nbTooltip="Repository URL for the code project.">
+          </nb-form-field>
+
+          <nb-form-field>
+            <input nbInput fullWidth type="text" placeholder="Branch" formControlName="branch" nbTooltip="Default Branch.">
+          </nb-form-field>
+        </div>
+        <div *ngIf="selectedAsset.type === 'webApp'" class="form-group">
+          <nb-form-field>
+            <input nbInput fullWidth type="text" placeholder="Name" formControlName="name" nbTooltip="Enter the name of the web application.">
+          </nb-form-field>
+
+          <nb-form-field>
+            <input nbInput fullWidth type="text" placeholder="URL" formControlName="target" nbTooltip="Enter the URL of the web application.">
+          </nb-form-field>
+        </div>
+        <div *ngIf="selectedAsset.type === 'interface'" class="form-group">
+          <nb-form-field>
+            <input nbInput fullWidth type="text" placeholder="Name" formControlName="name" nbTooltip="Enter the name of the network asset.">
+          </nb-form-field>
+
+          <nb-form-field>
+            <input nbInput fullWidth type="text" placeholder="IP" formControlName="target" nbTooltip="Enter the IP of the network asset.">
+          </nb-form-field>
+        </div>
+        <button nbButton type="submit" status="primary">Save</button>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</ng-template>
+<ng-template #deleteAsset let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Confirm Deletion</nb-card-header>
+    <nb-card-body>
+      <p>Are you sure you want to delete asset of type <strong>{{ selectedAsset.type }}</strong> with name <strong>{{ selectedAsset.name }}</strong>?</p>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="danger" (click)="onDeleteAsset(ref)">Yes</button>
+      <button nbButton (click)="ref.close()">No</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

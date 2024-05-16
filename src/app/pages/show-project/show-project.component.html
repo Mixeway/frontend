@@ -20,22 +20,49 @@
   </div>
 </div>
 
-<div class="row" style="display:flex; align-items: center">
-  <div [class]="ciOperations?.length > 0 ? 'col-md-8' : 'col-md-12'" style="margin: 0 auto;">
-    <ngx-status-card [projectInfo]="projectInfo" [projectStats]="projectStats"></ngx-status-card>
-  </div>
-  <div *ngIf="ciOperations?.length > 0" class="col-md-4">
-    <ngx-ci-operations [ciOperations]="ciOperations" [chartValue]="ciOperationSuccessRate"></ngx-ci-operations>
-  </div>
-</div>
+<!--<div class="row" style="display:flex; align-items: center">-->
+<!--  <div [class]="ciOperations?.length > 0 ? 'col-md-8' : 'col-md-12'" style="margin: 0 auto;">-->
+<!--    <ngx-status-card [projectInfo]="projectInfo" [projectStats]="projectStats"></ngx-status-card>-->
+<!--  </div>-->
+<!--  <div *ngIf="ciOperations?.length > 0" class="col-md-4">-->
+<!--    <ngx-ci-operations [ciOperations]="ciOperations" [chartValue]="ciOperationSuccessRate"></ngx-ci-operations>-->
+<!--  </div>-->
+<!--</div>-->
 
 <ngx-configure-tables *ngIf="showConfigTableTemplate" [scannerTypes]="scannerTypes"></ngx-configure-tables>
 
 
-<ngx-trend-chart *ngIf="showDetailsTemplate" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
 
+<div class="row">
+  <div class="col-md-12">
+    <nb-card >
+      <nb-tabset>
+        <nb-tab tabTitle="Assets" tabIcon="list-outline">
+          <ngx-manage-assets></ngx-manage-assets>
+        </nb-tab>
 
-<ngx-details-tables id="detailsTables" *ngIf="showDetailsTemplate"></ngx-details-tables>
+        <nb-tab tabTitle="All Vulnerabilities" tabIcon="browser-outline" [badgeText]="vulnsNumber" [badgeStatus]="vulnsColor" badgePosition="center end" >
+          <ngx-details-tables id="detailsTables" *ngIf="showDetailsTemplate"></ngx-details-tables>
+
+        </nb-tab>
+        <nb-tab tabTitle="Statistics" tabIcon="pie-chart-outline" >
+          <ngx-trend-chart *ngIf="showDetailsTemplate" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
+        </nb-tab>
+        <nb-tab tabTitle="Metrics" tabIcon="activity-outline">
+          <div class="metrics-container">
+            <ngx-metric class="metric-card col-md-4" title="Number of active vulnerabilities" image="success1.png" accent="danger" topLine="123" bottomLine="Average X per project"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of Fixed vulnerabilities" image="001-no-passing.png" accent="danger" topLine="1" bottomLine="Which is 12% of all"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Average fix time" image="success_time.png" accent="success" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that verify security" image="success3.png" accent="success" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that are secure" image="005-flammable.png" accent="danger" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of projects with Bug Tracking integrated" image="nuclear_hires.png" accent="warning" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+          </div>
+        </nb-tab>
+
+      </nb-tabset>
+    </nb-card>
+  </div>
+</div>
 
 <ng-template #vulnAuditorSettings let-data let-ref="dialogRef">
   <nb-card>

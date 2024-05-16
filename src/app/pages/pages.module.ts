@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import {
-  NbAlertModule,
-  NbButtonModule,
-  NbCardModule,
-  NbIconModule, NbInputModule,
-  NbListModule,
-  NbMenuModule, NbSelectModule,
-  NbTabsetModule,
+    NbActionsModule,
+    NbAlertModule, NbBadgeModule, NbButtonGroupModule,
+    NbButtonModule,
+    NbCardModule,
+    NbIconModule, NbInputModule, NbLayoutModule,
+    NbListModule,
+    NbMenuModule, NbProgressBarModule, NbSelectModule,
+    NbTabsetModule, NbTooltipModule, NbUserModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
@@ -33,6 +34,11 @@ import {ExtraComponentsModule} from './extra-components/extra-components.module'
 import { GlobalStatisticComponent } from './global-statistic/global-statistic.component';
 import {NgxEchartsModule} from "ngx-echarts";
 import { StatsDashboardComponent } from './stats-dashboard/stats-dashboard.component';
+import { ShowAssetComponent } from './show-asset/show-asset.component';
+import { NewVulnsComponent } from './show-asset/new-vulns/new-vulns.component';
+import { AssetVulnsTableComponent } from './show-asset/asset-vulns-table/asset-vulns-table.component';
+import { AssetScansComponent } from './show-asset/asset-scans/asset-scans.component';
+import { AssetCicdComponent } from './show-asset/asset-cicd/asset-cicd.component';
 
 @NgModule({
     imports: [
@@ -58,6 +64,13 @@ import { StatsDashboardComponent } from './stats-dashboard/stats-dashboard.compo
         ReactiveFormsModule,
         ExtraComponentsModule,
         NgxEchartsModule,
+        NbProgressBarModule,
+        NbBadgeModule,
+        NbButtonGroupModule,
+        NbLayoutModule,
+        NbTooltipModule,
+        NbActionsModule,
+        NbUserModule,
     ],
   declarations: [
     PagesComponent,
@@ -70,6 +83,11 @@ import { StatsDashboardComponent } from './stats-dashboard/stats-dashboard.compo
     ScansComponent,
     GlobalStatisticComponent,
     StatsDashboardComponent,
+    ShowAssetComponent,
+    NewVulnsComponent,
+    AssetVulnsTableComponent,
+    AssetScansComponent,
+    AssetCicdComponent,
   ],
   providers: [
     {

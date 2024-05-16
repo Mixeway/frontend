@@ -1,0 +1,14 @@
+
+
+<nb-card size="tiny" class="solar-card" [accent]="accent">
+  <nb-card-header>{{title}}</nb-card-header>
+  <nb-card-body class="card-body-flex">
+    <div class="image-container">
+      <img [src]="'assets/images/' + image" alt="Description of Image">
+    </div>
+    <div class="info">
+      <div class="h4 value">{{topLine}}</div>
+      <div class="details subtitle-2">{{bottomLine}}</div>
+    </div>
+  </nb-card-body>
+</nb-card>

@@ -24,6 +24,7 @@ export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterView
               private showProjectService: ShowProjectService,
               private _route: ActivatedRoute, private router: Router) {
     this._entityId = +this._route.snapshot.paramMap.get('projectid');
+    this._entityId = !this._entityId ? +this._route.snapshot.paramMap.get('assetid') : this._entityId;
     if (!this._entityId) {
       this.router.navigate(['/pages/dashboard']);
     }

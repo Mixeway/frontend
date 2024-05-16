@@ -28,7 +28,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {ExtraComponentsModule} from '../extra-components/extra-components.module';
 import {DashboardChartService} from './dashboard-charts/dashboard-chart.service';
 import {DashboardService} from '../../@core/service/DashboardService';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
     imports: [

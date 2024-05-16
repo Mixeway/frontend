@@ -1,0 +1,66 @@
+.date-source {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+}
+
+.source {
+  margin-top: 5px; /* Add consistent spacing */
+}
+
+.branch-commit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center vertically */
+}
+
+.commitId {
+  margin-top: 5px; /* Adjust spacing between branch and commitId */
+}
+
+.vulnerabilities {
+  display: flex;
+  flex-direction: column; /* Stack vulnerability counts and label vertically */
+  align-items: center; /* Center horizontally */
+  gap: 5px; /* Adds spacing between vulnerability badges and label */
+}
+
+.vulnerability-counts {
+  display: flex;
+  gap: 5px; /* Adds spacing between vulnerability badges */
+}
+
+.scan-type {
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+/* Scan Type Classes */
+.info {
+  color: #28a745; /* Green for IaC */
+}
+
+.primary {
+  color: #007bff; /* Blue for SAST */
+}
+
+.basic {
+  color: #6c757d; /* Gray for SCA */
+}
+
+.control {
+  color: #17a2b8; /* Teal for DAST */
+}
+
+.success {
+  color: #28a745; /* Green for gitleaks */
+}
+
+/* Styles for the number boxes (adjust as needed) */
+.badge {
+  padding: 5px 10px;
+  border-radius: 5px;
+}

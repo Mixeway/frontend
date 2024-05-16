@@ -37,17 +37,57 @@
   </nb-card>
 </div>
 
-<div class="row" *ngIf="trendResponse?.length > 0">
-  <nb-card class="col-md-12">
-    <nb-card-body>
-      <ngx-dashboard-vuln-trend-analytics [trendResponse]="trendResponse" [sourceData]="chartData" [trendType]="'Linear'" [pieTitle]="'Vulnerability source'"></ngx-dashboard-vuln-trend-analytics>
-    </nb-card-body>
-  </nb-card>
-</div>
-<br/>
-
 <div class="row">
   <div class="col-md-12">
-    <ngx-project-table></ngx-project-table>
+    <nb-card >
+      <nb-tabset (changeTab)="changeTab($event)">
+
+        <nb-tab tabTitle="Projects" tabIcon="browser-outline">
+          <ngx-project-table></ngx-project-table>
+        </nb-tab>
+        <nb-tab tabTitle="Statistics" tabIcon="pie-chart-outline" >
+          <ngx-dashboard-vuln-trend-analytics *ngIf="activeTab === 'Statistics' && trendResponse?.length > 0" [trendResponse]="trendResponse" [sourceData]="chartData" [trendType]="'Linear'" [pieTitle]="'Vulnerability source'"></ngx-dashboard-vuln-trend-analytics>
+          <div class="row" *ngIf="activeTab === 'Statistics'">
+            <div class="col-md-6">
+              <nb-card>
+                <nb-card-header>
+                  Top 10 projects with Highest Risk score
+                </nb-card-header>
+                <nb-card-body>
+                  <div echarts
+                       [options]="projectOptions"
+                       class="echart">
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+            <div class="col-md-6">
+              <nb-card>
+                <nb-card-header>
+                  Top 10 most common Critical Vulnerabilities
+                </nb-card-header>
+                <nb-card-body>
+                  <div echarts
+                       [options]="vulnOptions"
+                       class="echart">
+                  </div>
+                </nb-card-body>
+              </nb-card>
+            </div>
+          </div>
+        </nb-tab>
+        <nb-tab tabTitle="Metrics" tabIcon="activity-outline">
+          <div class="metrics-container">
+            <ngx-metric class="metric-card col-md-4" title="Number of active vulnerabilities" image="success1.png" accent="danger" topLine="123" bottomLine="Average X per project"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of Fixed vulnerabilities" image="001-no-passing.png" accent="danger" topLine="1" bottomLine="Which is 12% of all"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Average fix time" image="success_time.png" accent="success" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that verify security" image="success3.png" accent="success" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that are secure" image="005-flammable.png" accent="danger" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of projects with Bug Tracking integrated" image="nuclear_hires.png" accent="warning" topLine="1" bottomLine="co stanowi zalediwe 5% wszystkich"></ngx-metric>
+          </div>
+        </nb-tab>
+
+      </nb-tabset>
+    </nb-card>
   </div>
 </div>

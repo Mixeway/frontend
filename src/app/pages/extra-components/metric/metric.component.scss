@@ -1,0 +1,58 @@
+@import '../../../@theme/styles/themes';
+@import '@nebular/theme/styles/global/breakpoints';
+@import 'bootstrap/scss/mixins/breakpoints';
+
+@include nb-install-component() {
+
+  nb-card-body {
+    overflow: hidden;
+  }
+
+  .echart {
+    position: absolute;
+    left: 1em;
+    height: calc(100% - 2 * 1rem);
+    width: 40%;
+  }
+
+  .info {
+    margin-left: 45%;
+    padding-top: 1rem;
+  }
+
+  .value {
+    margin: 0;
+  }
+
+  .details {
+    color: nb-theme(text-hint-color);
+  }
+  .metric-image {
+    width: 50px; /* Adjust the width as necessary */
+    height: auto; /* Adjust the height as necessary */
+    margin: 0 auto; /* Center the image if needed */
+    display: block; /* Ensures the image is block-level for margin auto to work */
+  }
+  .card-body-flex {
+    display: flex;
+    align-items: center; // Vertically center the contents
+  }
+
+  .image-container {
+    flex-shrink: 0; // Prevent the image container from shrinking
+    margin-right: 3px; // Add some space between the image and the text
+    width: 50px; // Ensure the container only takes up as much width as necessary
+
+    img {
+      width: 100px; // Adjust based on your desired image size
+      height: auto; // Maintain aspect ratio
+    }
+  }
+
+  .info {
+    flex-grow: 1; // Allow the text container to grow and fill available space
+    display: flex; // Use this if you want to align items inside .info further
+    flex-direction: column; // Stack the items vertically
+    justify-content: center; // Center the items vertically if there's extra space
+  }
+}

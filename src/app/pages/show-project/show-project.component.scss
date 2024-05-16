@@ -56,6 +56,39 @@
     overflow: hidden;
     display: flex;
   }
+  ngx-trend-chart-line,
+  ngx-vuln-type-chart-pie {
+    display: block;
+    height: nb-theme(card-height-small);
+    width: 100%;
+
+    ::ng-deep chart {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  }
+  .stat {
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+  .desc {
+    text-align: center;
+    font-size: small;
+    font-style: italic;
+  }
+  .metrics-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap if there's not enough room */
+    gap: 2px; /* Adds space between the flex items */
+  }
+
+  .metric-card {
+    flex: 1 1 400px; /* Grow and shrink, but start with a base width of 200px */
+    min-width: 400px; /* Prevent the card from being smaller than 200px */
+    max-width: 100%; /* Ensure the card doesn't grow beyond the container's width */
+  }
 }
 
 ::ng-deep .ng-invalid:not(form) {
