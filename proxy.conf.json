@@ -44,6 +44,18 @@
     "pathRewrite": {
       "^/api": ""
     },
+
+    "headers": {"Host":"localhost:4200","X-Forwarded-Host": "localhost:4200"}
+  },
+  "/v3/*": {
+    "target": "https://localhost:8443",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
+
     "headers": {"Host":"localhost:4200","X-Forwarded-Host": "localhost:4200"}
   }
 }

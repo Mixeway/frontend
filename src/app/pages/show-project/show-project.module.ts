@@ -125,7 +125,7 @@ import { ManageAssetsComponent } from './manage-assets/manage-assets.component';
     ],
   exports: [
     TrendChartComponent,
-    VulnTrendAreaStackComponent
-  ]
+    VulnTrendAreaStackComponent,
+  ],
 })
 export class ShowProjectModule { }

@@ -6,7 +6,12 @@ import {AssetTypeComponent} from '../../extra-components/AssetTypeComponent';
 import {AssetTargetComponent} from '../../extra-components/AssetTargetComponent';
 import {AssetScopeComponent} from '../../extra-components/AssetScopeComponent';
 import {AssetVulnerabilitiesComponent} from '../../extra-components/AssetVulnerabilityComponent';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AssetService} from '../../../@core/service/AssetService';
+import {ProjectAsset} from '../../../@core/Model/ProjectAsset';
+import * as _ from 'lodash'; // Import lodash
+
+
 
 @Component({
   selector: 'ngx-manage-assets',
@@ -21,57 +26,26 @@ export class ManageAssetsComponent implements OnInit {
   source: LocalDataSource;
   assetForm: FormGroup;
   editForm: FormGroup;
+  _entityId: any;
   selectedAsset: any; // To store the selected asset for editing
 
-  data = [
-    {
-      id: 1,
-      name: 'test',
-      target: 'https://github.com',
-      branch: 'test@test',
-      type: 'codeProject',
-      scope: ['sca', 'sast'],
-      vulnerablities: {
-        critical: 123,
-        medium: 321,
-        low: 1,
-      },
-    },
-    {
-      id: 2,
-      name: 'test2',
-      target: 'https://example.com',
-      type: 'webApp',
-      scope: ['dast'],
-      vulnerablities: {
-        critical: 123,
-        medium: 321,
-        low: 1,
-      },
-    },
-    {
-      id: 3,
-      name: 'interface',
-      target: '8.8.8.8',
-      type: 'interface',
-      scope: ['network'],
-      vulnerablities: {
-        critical: 123,
-        medium: 321,
-        low: 1,
-      },
-    },
-  ];
+  data: ProjectAsset[] = []; // Initialize as an empty array
 
   constructor(private dialogService: NbDialogService, private toastrService: NbToastrService, private fb: FormBuilder,
-              private router: Router) {
-    this.source = new LocalDataSource(this.data);
+              private router: Router, private assetService: AssetService, private _route: ActivatedRoute) {
+    this._entityId = +this._route.snapshot.paramMap.get('projectid');
+    if (!this._entityId) {
+      this.router.navigate(['/pages/dashboard']);
+    }
   }
 
   ngOnInit(): void {
+
+    this.source = new LocalDataSource(this.data);
+    this.loadAssets(); // Fetch assets on component initialization
     this.assetForm = this.fb.group({
       assetType: ['', Validators.required],
-      name: [''],
+      name: ['', Validators.required],
       repositoryUrl: ['', Validators.pattern(/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/)],
       defaultBranch: [''],
       repositoryType: ['single'],
@@ -90,10 +64,11 @@ export class ManageAssetsComponent implements OnInit {
       name: ['', Validators.required],
       target: ['', Validators.required],
       branch: [''],
+      id: [''],
+      type: ['', Validators.required],
     });
 
     this.settings = {
-      mode: 'external',
       actions: {
         custom: [
           {
@@ -103,10 +78,6 @@ export class ManageAssetsComponent implements OnInit {
           {
             name: 'editAction',
             title: '<i class="nb-edit" title="Edit"></i>',
-          },
-          {
-            name: 'deleteAction',
-            title: '<i class="nb-trash" title="delete"></i>',
           },
         ],
         add: false,
@@ -165,6 +136,8 @@ export class ManageAssetsComponent implements OnInit {
         name: this.selectedAsset.name,
         target: this.selectedAsset.target,
         branch: this.selectedAsset.branch,
+        id: this.selectedAsset.id,
+        type: this.selectedAsset.type,
       });
     }
     this.dialogService.open(dialog, event);
@@ -178,10 +151,7 @@ export class ManageAssetsComponent implements OnInit {
       case 'editAction':
         this.openCreateApiDialog(this.editAssetTemplate, event);
         break;
-      case 'deleteAction':
-        this.selectedAsset = event.data; // Store the selected asset for deletion
-        this.openCreateApiDialog(this.deleteAssetTemplate, event); // Open the delete confirmation dialog
-        break;
+
     }
   }
 
@@ -200,9 +170,24 @@ export class ManageAssetsComponent implements OnInit {
     this.apps.removeAt(index);
   }
 
+  clearForm() {
+    // Clear the form values by iterating over all form controls and setting them to null
+    for (const controlName in this.assetForm.controls) {
+      if (this.assetForm.controls.hasOwnProperty(controlName)) {
+        this.assetForm.controls[controlName].setValue(null);
+      }
+    }
+  }
   onSubmit(ref) {
-    console.log(this.assetForm.value);
-    this.toastrService.show('Asset created', 'Success', { status: 'success' });
+    return this.assetService.saveAsset(this._entityId, this.assetForm.value).subscribe(() => {
+        this.toastrService.show('Asset created', 'Success', { status: 'success' });
+        this.clearForm();
+        this.loadAssets();
+        ref.close();
+      },
+      () => {
+        this.toastrService.show('Asset not created, check all fields', 'Failure', { status: 'danger' });
+      });
     ref.close();
   }
 
@@ -212,11 +197,15 @@ export class ManageAssetsComponent implements OnInit {
       this.selectedAsset.name = this.editForm.value.name;
       this.selectedAsset.target = this.editForm.value.target;
       this.selectedAsset.branch = this.editForm.value.branch;
-
-      // Update the UI
-      this.source.refresh();
-      this.toastrService.show('Asset edited', 'Success', { status: 'success' });
-      ref.close();
+      return this.assetService.editAsset(this.editForm.value.id, this.editForm.value).subscribe(() => {
+          this.toastrService.show('Asset Edited', 'Success', { status: 'success' });
+          ref.close();
+          this.loadAssets();
+          this.source.refresh();
+        },
+        () => {
+          this.toastrService.show('Asset not edited, check all fields', 'Failure', { status: 'danger' });
+        });
     }
   }
 
@@ -230,10 +219,21 @@ export class ManageAssetsComponent implements OnInit {
       this.data.splice(index, 1);
 
       // Update the UI
-      this.source.load(this.data);
+      this.source.load(this.data); // Refresh the LocalDataSource
       this.toastrService.show('Asset removed', 'Success', { status: 'success' });
       ref.close();
     }
+
+  }
+  loadAssets() {
+    return this.assetService.getAssets(this._entityId).subscribe(response => {
+      this.data = _.cloneDeep(response); // Deep clone the response
+      this.source = new LocalDataSource(this.data);
+      this.source.refresh(); // Refresh the LocalDataSource
+
+    });
+  }
+  editAsset(event, ref) {
 
   }
 }
