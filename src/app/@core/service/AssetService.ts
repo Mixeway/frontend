@@ -4,6 +4,7 @@ import {Observable, throwError} from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 import {ProjectUser} from '../Model/ProjectUser';
 import {ProjectAsset} from '../Model/ProjectAsset';
+import {Scan} from '../Model/Scan';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,13 @@ export class AssetService {
   }
   editAsset(id, form) {
     return this.http.post<ProjectUser[]>('/v3/api/asset/' + id + '/edit' , form)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+  getScansForAsset(id, type) {
+    return this.http.get<Scan[]>('/v3/api/asset/' + id + '/' + type + '/scans'  )
       .pipe(
         retry(1),
         catchError(this.errorHandl),

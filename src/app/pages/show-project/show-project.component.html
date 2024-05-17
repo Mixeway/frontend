@@ -38,7 +38,7 @@
     <nb-card >
       <nb-tabset>
         <nb-tab tabTitle="Assets" tabIcon="list-outline">
-          <ngx-manage-assets></ngx-manage-assets>
+          <ngx-manage-assets [projectName]="risk?.projectName"></ngx-manage-assets>
         </nb-tab>
 
         <nb-tab tabTitle="All Vulnerabilities" tabIcon="browser-outline" [badgeText]="vulnsNumber" [badgeStatus]="vulnsColor" badgePosition="center end" >

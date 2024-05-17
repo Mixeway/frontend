@@ -1,4 +1,4 @@
-<a href="/">Dashboard</a> / <a href="/pages/show/project/123">Root Project</a> / My Project <br/> <br/>
+<a href="/">Dashboard</a> / <a [href]="'/pages/show/project/'+projectId">{{projectName}}</a> / {{project.name}} <br/> <br/>
 <nb-card>
   <nb-card-body>
 
@@ -131,7 +131,7 @@
         <ngx-asset-vulns-table></ngx-asset-vulns-table>
       </nb-tab>
       <nb-tab tabTitle="Scans" tabIcon="search-outline" responsive>
-        <ngx-asset-scans></ngx-asset-scans>
+        <ngx-asset-scans [assetId]="_entityId" [assetType]="assetType"></ngx-asset-scans>
       </nb-tab>
       <nb-tab tabTitle="CICD" tabIcon="play-circle-outline" responsive>
         <ngx-asset-cicd></ngx-asset-cicd>

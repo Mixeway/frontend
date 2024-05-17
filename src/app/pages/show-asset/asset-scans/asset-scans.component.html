@@ -1,13 +1,18 @@
 <div class="lists row">
   <div class="col-md-12 col-lg-12 col-xxxl-12">
     <nb-card class="list-card" size="large">
-      <nb-card-header>List of scans related with project</nb-card-header>
+      <nb-card-header>
+        <div class="d-flex justify-content-between align-items-center">
+          List of scans related with project
+          <button nbButton status="primary" (click)="loadScans()"><nb-icon icon="refresh-outline"></nb-icon></button>
+        </div>
+      </nb-card-header>
       <nb-list>
         <nb-list-item *ngFor="let scan of scans">
           <div class="row col-md-12">
             <div class="col-md-3 date-source">
-              <h5>{{ scan.date }}</h5>
-              <span class="source">By: {{ scan.source }}</span>
+              <h5>{{ scan.inserted }}</h5>
+              <span class="source">By: {{ scan.triggerer }}</span>
             </div>
             <div class="col-md-3 scan-type">
               Scan Type: <span [ngClass]="getScanTypeClass(scan.type)">{{ scan.type }}</span>
@@ -18,9 +23,9 @@
             </div>
             <div class="col-md-3 vulnerabilities">
               <div class="vulnerability-counts">
-                <button nbButton status="danger">{{ scan.critVulns }}</button>
-                <button nbButton status="warning">{{ scan.mediumVulns }}</button>
-                <button nbButton status="success">{{ scan.lowVulns }}</button>
+                <button nbButton status="danger">{{ scan.vulnCrit }}</button>
+                <button nbButton status="warning">{{ scan.vulnMedium }}</button>
+                <button nbButton status="success">{{ scan.vulnLow }}</button>
               </div>
               <small>Vulnerabilities detected</small>
             </div>

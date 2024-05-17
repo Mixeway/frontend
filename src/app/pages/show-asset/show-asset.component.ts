@@ -17,6 +17,9 @@ interface Project {
   styleUrls: ['./show-asset.component.scss'],
 })
 export class ShowAssetComponent implements OnInit {
+  assetType: string;
+  projectId: number;
+  projectName: string;
   project: Project = {
     name: 'My Project',
     icon: 'github-outline',
@@ -37,6 +40,12 @@ export class ShowAssetComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._route.queryParams.subscribe(params => {
+      this.assetType = params['assetType'];
+      this.projectId = +params['projectId'];
+      this.projectName = params['projectName'];
+    });
+    // alert(this.assetType + ' ' + this.projectId + ' ' + this.projectName + ' ' + this._entityId + '');
   }
   loadCiOperations() {
     return this.showProjectService.getCiForProject(this._entityId).subscribe(data => {

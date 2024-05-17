@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -23,6 +23,7 @@ export class ManageAssetsComponent implements OnInit {
   @ViewChild('editAsset') editAssetTemplate: TemplateRef<any>;
   @ViewChild('addAsset') addAssetTemplate: TemplateRef<any>;
   @ViewChild('deleteAsset') deleteAssetTemplate: TemplateRef<any>; // Add this line
+  @Input() projectName: string;
   source: LocalDataSource;
   assetForm: FormGroup;
   editForm: FormGroup;
@@ -146,7 +147,9 @@ export class ManageAssetsComponent implements OnInit {
   onCustomAction(event) {
     switch (event.action) {
       case 'details':
-        this.router.navigate(['/pages/show/asset/' + event.data.id]);
+        this.router.navigate(['/pages/show/asset/' + event.data.id],
+          { queryParams: { assetType: event.data.type, projectId: this._entityId,
+            projectName: this.projectName} });
         break;
       case 'editAction':
         this.openCreateApiDialog(this.editAssetTemplate, event);
