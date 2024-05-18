@@ -3,7 +3,7 @@
     <nb-card size="large">
       <nb-tabset fullWidth (changeTab)="onTabChange()">
         <nb-tab tabTitle="Vulnerability Trend">
-          <ngx-show-project-details-chart *ngIf="showDetailsTemplate" style="height:100%"></ngx-show-project-details-chart>
+          <ngx-show-project-details-chart *ngIf="showDetailsTemplate" [vulnTrendChart]="vulnTrendChart" style="height:100%"></ngx-show-project-details-chart>
         </nb-tab>
         <nb-tab tabTitle="Other Stats [Beta]">
           <div class="row" *ngIf="flipped">

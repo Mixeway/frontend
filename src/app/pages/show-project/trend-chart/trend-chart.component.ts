@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Severities} from '../../../@core/Model/Severities';
+import {VulnTrendChart} from '../../../@core/Model/VulnTrendChart';
 
 @Component({
   selector: 'ngx-trend-chart',
@@ -9,6 +10,7 @@ import {Severities} from '../../../@core/Model/Severities';
 export class TrendChartComponent implements OnInit {
 
   @Input() showDetailsTemplate: boolean;
+  @Input() vulnTrendChart: VulnTrendChart;
   flipped: boolean = false;
   counter: number = 0;
   @Input() severities: Severities;

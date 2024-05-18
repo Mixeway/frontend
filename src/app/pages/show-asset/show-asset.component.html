@@ -114,7 +114,7 @@
         </div>
         <div class="row">
           <div class="col-md-8">
-            <ngx-vuln-trend-area-stack></ngx-vuln-trend-area-stack>
+            <ngx-vuln-trend-area-stack [vulnTrendChart]="vulnTrendChart" *ngIf="vulnTrendChart"></ngx-vuln-trend-area-stack>
           </div>
           <div class="col-md-4">
             <ngx-new-vulns></ngx-new-vulns>

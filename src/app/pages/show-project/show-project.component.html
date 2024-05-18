@@ -46,7 +46,7 @@
 
         </nb-tab>
         <nb-tab tabTitle="Statistics" tabIcon="pie-chart-outline" >
-          <ngx-trend-chart *ngIf="showDetailsTemplate" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
+          <ngx-trend-chart [vulnTrendChart]="vulnTrendChart" *ngIf="showDetailsTemplate && vulnTrendChart" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
         </nb-tab>
         <nb-tab tabTitle="Metrics" tabIcon="activity-outline">
           <div class="metrics-container">

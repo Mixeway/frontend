@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ProjectConstants} from '../../../@core/constants/ProjectConstants';
+import {VulnTrendChart} from '../../../@core/Model/VulnTrendChart';
 
 @Component({
   selector: 'ngx-show-project-details-chart',
@@ -8,6 +9,7 @@ import {ProjectConstants} from '../../../@core/constants/ProjectConstants';
 })
 export class ShowProjectDetailsChartComponent implements OnInit {
   constants: ProjectConstants = new ProjectConstants();
+  @Input() vulnTrendChart: VulnTrendChart;
   constructor() { }
 
   ngOnInit() {

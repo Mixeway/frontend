@@ -5,6 +5,7 @@ import {catchError, retry} from 'rxjs/operators';
 import {ProjectUser} from '../Model/ProjectUser';
 import {ProjectAsset} from '../Model/ProjectAsset';
 import {Scan} from '../Model/Scan';
+import {VulnTrendChart} from '../Model/VulnTrendChart';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,15 @@ export class AssetService {
   }
   getScansForAsset(id, type) {
     return this.http.get<Scan[]>('/v3/api/asset/' + id + '/' + type + '/scans'  )
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+
+  getVulnTrendChart(id, type): Observable<VulnTrendChart> {
+    return this.http.get<VulnTrendChart>('/v3/api/asset/' + id + '/' + type +
+      '/trend')
       .pipe(
         retry(1),
         catchError(this.errorHandl),

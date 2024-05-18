@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import {ShowProjectService} from '../../../@core/service/ShowProjectService';
 import {VulnTrendChart} from '../../../@core/Model/VulnTrendChart';
@@ -10,13 +10,13 @@ import {ProjectConstants} from '../../../@core/constants/ProjectConstants';
   template: `
     <div echarts [options]="options" class="echart" *ngIf="vulnTrendChart?.series.length > 0"></div>
     <nb-alert status="info" *ngIf="vulnTrendChart?.series.length == 0">
-        {{constants.PROJECT_CHARTS_TREND_NODATA}}</nb-alert>
+      {{constants.PROJECT_CHARTS_TREND_NODATA}}</nb-alert>
   `,
 })
-export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterViewInit {
+export class VulnTrendAreaStackComponent implements OnDestroy, OnInit {
   options: any = {};
   themeSubscription: any;
-  vulnTrendChart: VulnTrendChart;
+  @Input() vulnTrendChart: VulnTrendChart;
   _entityId: number;
   constants: ProjectConstants = new ProjectConstants();
 
@@ -28,14 +28,12 @@ export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterView
     if (!this._entityId) {
       this.router.navigate(['/pages/dashboard']);
     }
-    this.loadChartData();
-  }
-  ngAfterViewInit() {
-    this.loadChartData();
   }
 
   ngOnInit() {
-    this.loadChartData();
+    if (this.vulnTrendChart) {
+      this.drawChart();
+    }
   }
 
   loadChartData() {
@@ -48,10 +46,11 @@ export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterView
   ngOnDestroy(): void {
   }
   drawChart() {
+
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
 
       const colors: any = config.variables;
-      const echarts: any = config.variables.echarts;
+      const echarts: any = config.variables.echarts; // Make echarts available
 
       this.options = {
         backgroundColor: echarts.bg,
@@ -117,11 +116,12 @@ export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterView
             },
           },
         ],
-        series: this.createSerie(),
+        series: this.createSerie(echarts),
       };
     });
   }
-  createSerie() {
+
+  createSerie(echarts: any) { // Accept echarts as a parameter
     const array: any = [];
     for (const entry of this.vulnTrendChart.series) {
       array.push({
@@ -135,7 +135,7 @@ export class VulnTrendAreaStackComponent implements OnDestroy, OnInit, AfterView
         name: entry.name,
         type: 'line',
         stack: 'Total amount',
-        areaStyle: { normal: { opacity: echarts.areaOpacity } },
+        areaStyle: { normal: { opacity: echarts.areaOpacity } }, // Now echarts is accessible
         data: entry.values.reverse(),
       });
     }
