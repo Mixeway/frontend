@@ -48,8 +48,8 @@ export class CiOperationsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.allDeployments = this.ciOperations.length;
-    this.successDeployment = this.ciOperations.filter((operation) => operation.result === 'Ok').length;
+    this.allDeployments = this.ciOperations?.length;
+    this.successDeployment = this.ciOperations?.filter((operation) => operation.result === 'Ok').length;
     this.themeSubscription = this.theme.getJsTheme().pipe(delay(1)).subscribe(config => {
 
       const solarTheme: any = config.variables.solar;

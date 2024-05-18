@@ -25,7 +25,7 @@
           </nb-card>
 
           <div class="col-md-4">
-            <ngx-ci-operations [ciOperations]="ciOperations" [chartValue]="ciOperationSuccessRate"></ngx-ci-operations>
+            <ngx-ci-operations [ciOperations]="ciOperations" *ngIf="ciOperations" [chartValue]="ciOperationSuccessRate"></ngx-ci-operations>
           </div>
         </div>
         <div class="row">

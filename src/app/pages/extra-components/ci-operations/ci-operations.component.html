@@ -1,6 +1,6 @@
 <nb-card size="tiny" class="solar-card">
   <nb-card-header>Deployment security policy compliance</nb-card-header>
-  <nb-card-body>
+  <nb-card-body *ngIf="ciOperations[0]">
     <div echarts [options]="option" class="echart">
     </div>
     <div class="info">
@@ -9,6 +9,12 @@
       <div class="details subtitle-2"><a role="button" (click)="showCIOperatonsDetails()" style="text-decoration: underline; text-decoration-color: #7ACAFF">View more info</a></div>
     </div>
   </nb-card-body>
+  <nb-card-body *ngIf="!ciOperations[0]">
+    <nb-alert status="info">
+      There are no CICD runs for this asset
+    </nb-alert>
+  </nb-card-body>
+
 </nb-card>
 
 <ng-template #ciOperations let-data let-ref="dialogRef">
