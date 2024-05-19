@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CiOperations} from '../../@core/Model/CiOperations';
 import {VulnTrendChart} from '../../@core/Model/VulnTrendChart';
 import {AssetService} from '../../@core/service/AssetService';
+import {NewVulnModel} from '../../@core/Model/NewVulnModel';
+import {AssetDashboardModel} from '../../@core/Model/AssetDashboardModel';
 
 interface Project {
   name: string;
@@ -19,6 +21,8 @@ interface Project {
   styleUrls: ['./show-asset.component.scss'],
 })
 export class ShowAssetComponent implements OnInit {
+  newVulns: NewVulnModel[];
+  assetDashboardModel: AssetDashboardModel;
   assetType: string;
   projectId: number;
   projectName: string;
@@ -49,6 +53,8 @@ export class ShowAssetComponent implements OnInit {
     });
     this.loadTrendChartData();
     this.loadCiOperations();
+    this.loadNewVulns();
+    this.loadAssetDashboard();
 
   }
   loadCiOperations() {
@@ -61,6 +67,16 @@ export class ShowAssetComponent implements OnInit {
   loadTrendChartData() {
     return this.assetService.getVulnTrendChart(this._entityId, this.assetType).subscribe(data => {
       this.vulnTrendChart = data;
+    });
+  }
+  loadNewVulns() {
+    return this.assetService.getNewVulns(this._entityId, this.assetType).subscribe(data => {
+      this.newVulns = data;
+    });
+  }
+  loadAssetDashboard() {
+    return this.assetService.getAssetDashboard(this._entityId, this.assetType).subscribe(data => {
+      this.assetDashboardModel = data;
     });
   }
 

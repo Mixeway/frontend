@@ -9,17 +9,17 @@
             <nb-card-body>
               <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
                 <!-- Project Name -->
-                <h2 style="margin-bottom: 1rem;">{{ project.name }}</h2>
+                <h2 style="margin-bottom: 1rem;">{{ assetDashboardModel?.assetName }}</h2>
 
                 <!-- Icon and Location -->
-                <a nbButton [href]="project.location" target="_blank" style="display: flex; align-items: center;">
+                <a nbButton [href]="assetDashboardModel?.target" target="_blank" style="display: flex; align-items: center;">
                   <nb-icon icon="{{ project.icon }}"></nb-icon>
-                  <span style="margin-left: 0.5rem;">{{ project.location }}</span>
+                  <span style="margin-left: 0.5rem;">{{ assetDashboardModel?.target }}</span>
                 </a>
 
                 <!-- Date of Creation -->
                 <small style="margin-top: 1rem;">Default branch: master</small>
-                <small style="margin-top: 1rem;">Created: {{ project.createdAt | date }}</small>
+                <small style="margin-top: 1rem;">Created: {{ assetDashboardModel?.created | date }}</small>
               </div>
             </nb-card-body>
           </nb-card>
@@ -34,7 +34,7 @@
               <nb-card-header>
                 <div class="d-flex justify-content-between">
                   <h4>Security gateway:</h4>
-                  <button nbButton status="danger">Danger</button>
+                  <button nbButton [status]="assetDashboardModel?.securityGateway">{{assetDashboardModel?.securityGateway | uppercase}}</button>
                 </div>
               </nb-card-header>
             </nb-card>
@@ -44,10 +44,10 @@
               <nb-card-header>
                 <div class="d-flex justify-content-between">
                   <h4>Vulnerabilities:</h4>
-                  <button nbButton status="danger">1</button>
-                  <button nbButton status="warning">2</button>
-                  <button nbButton status="info">3</button>
-                  <button nbButton status="primary">4</button>
+                  <button nbButton status="danger">{{ assetDashboardModel?.vulnerabilities.crit}}</button>
+                  <button nbButton status="warning">{{ assetDashboardModel?.vulnerabilities.high}}</button>
+                  <button nbButton status="info">{{ assetDashboardModel?.vulnerabilities.medium}}</button>
+                  <button nbButton status="primary">{{ assetDashboardModel?.vulnerabilities.low}}</button>
                 </div>
               </nb-card-header>
             </nb-card>
@@ -61,13 +61,13 @@
                   <div class="col-4">
                     <div class="card-title" nbTooltip="test">Issues</div>
                     <div class="card-subtitle">Solved issues</div>
-                    <div class="avg">Total: 24</div>
+                    <div class="avg">Total: {{ assetDashboardModel?.solvedIssues.total}}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                      <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
-                      <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
-                      <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
-                      <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.critPercent" status="danger">{{ assetDashboardModel?.solvedIssues.crit}}</nb-progress-bar>
+                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.highPercent" status="warning">{{ assetDashboardModel?.solvedIssues.high}}</nb-progress-bar>
+                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.medium" status="info">{{ assetDashboardModel?.solvedIssues.medium}}</nb-progress-bar>
+                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.lowPercent" status="primary">{{ assetDashboardModel?.solvedIssues.low}}</nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
@@ -80,13 +80,13 @@
                   <div class="col-4">
                     <div class="card-title" nbTooltip="test">TTR</div>
                     <div class="card-subtitle">Time to resolve [days]</div>
-                    <div class="avg">Avg: 24</div>
+                    <div class="avg">Avg: {{ assetDashboardModel?.timeToResolve.total}}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                    <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.critPercent" status="danger">{{ assetDashboardModel?.timeToResolve.crit}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.highPercent" status="warning">{{ assetDashboardModel?.timeToResolve.high}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.mediumPercent" status="info">{{ assetDashboardModel?.timeToResolve.mediumPercent}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.lowPercent" status="primary">{{ assetDashboardModel?.timeToResolve.low}}</nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
@@ -99,13 +99,13 @@
                   <div class="col-4">
                     <div class="card-title" nbTooltip="test">Revieved</div>
                     <div class="card-subtitle">Number of revieved issues</div>
-                    <div class="avg">Total: 24</div>
+                    <div class="avg">Total: {{ assetDashboardModel?.reviewedIssues.total }}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                    <nb-progress-bar [value]="60" status="danger">321</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="warning">12</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="info">32</nb-progress-bar>
-                    <nb-progress-bar [value]="60" status="primary">12</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.critPercent" status="danger">{{assetDashboardModel?.reviewedIssues.crit}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.highPercent" status="warning">{{assetDashboardModel?.reviewedIssues.high}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.mediumPercent" status="info">{{assetDashboardModel?.reviewedIssues.medium}}</nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.lowPercent" status="primary">{{assetDashboardModel?.reviewedIssues.low}}</nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
@@ -117,7 +117,7 @@
             <ngx-vuln-trend-area-stack [vulnTrendChart]="vulnTrendChart" *ngIf="vulnTrendChart"></ngx-vuln-trend-area-stack>
           </div>
           <div class="col-md-4">
-            <ngx-new-vulns></ngx-new-vulns>
+            <ngx-new-vulns *ngIf="newVulns" [newVulns]="newVulns"></ngx-new-vulns>
           </div>
         </div>
 

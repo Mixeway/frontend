@@ -7,6 +7,8 @@ import {ProjectAsset} from '../Model/ProjectAsset';
 import {Scan} from '../Model/Scan';
 import {VulnTrendChart} from '../Model/VulnTrendChart';
 import {CiOperations} from '../Model/CiOperations';
+import {NewVulnModel} from '../Model/NewVulnModel';
+import {AssetDashboardModel} from '../Model/AssetDashboardModel';
 
 @Injectable({
   providedIn: 'root',
@@ -63,6 +65,21 @@ export class AssetService {
   getCiOperations(id, type): Observable<CiOperations[]> {
     return this.http.get<CiOperations[]>('/v3/api/asset/' + id + '/' + type +
       '/cioperations')
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+  getNewVulns(id, type): Observable<NewVulnModel[]> {
+    return this.http.get<NewVulnModel[]>('/v3/api/asset/' + id + '/' + type +
+      '/newvulnerabilities')
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+  getAssetDashboard(id, type): Observable<AssetDashboardModel> {
+    return this.http.get<AssetDashboardModel>('/v3/api/asset/' + id + '/' + type )
       .pipe(
         retry(1),
         catchError(this.errorHandl),

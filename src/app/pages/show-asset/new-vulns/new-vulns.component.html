@@ -1,18 +1,21 @@
 <nb-card size="medium">
-
   <nb-card-header>
-    <span>Recently detected Vulnerabilities</span>
+    New Vulnerabilities
   </nb-card-header>
-
-  <nb-list class="user-activity-list">
-    <nb-list-item *ngFor="let item of newVulns">
-
-      <div class="visited-date d-flex flex-row justify-content-between align-items-center">
-        {{item.name }}
-        <button nbButton status="danger">{{item.severity }}</button>
-      </div>
-
-    </nb-list-item>
-  </nb-list>
-
+  <nb-card-body *ngIf="newVulns[0]">
+    <nb-list>
+      <nb-list-item *ngFor="let item of newVulns">
+        <div class="item-info">
+          <span class="item-name">{{ item.name }}</span><br>
+          <small>Scan Type: {{ item.scanType }} | Branch: {{ item.branch }}</small>
+        </div>
+        <button nbButton [status]="item.status">{{item.severity }}</button>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+  <nb-card-body *ngIf="!newVulns[0]">
+    <nb-alert status="success">
+      There are no new vulnerabilities!
+    </nb-alert>
+  </nb-card-body>
 </nb-card>
