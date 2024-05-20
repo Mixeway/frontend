@@ -34,7 +34,7 @@
               <nb-card-header>
                 <div class="d-flex justify-content-between">
                   <h4>Security gateway:</h4>
-                  <button nbButton [status]="assetDashboardModel?.securityGateway">{{assetDashboardModel?.securityGateway | uppercase}}</button>
+                  <button nbTooltip="Information of the status of the security gateway based on detected threats" nbButton [status]="assetDashboardModel?.securityGateway">{{assetDashboardModel?.securityGateway | uppercase}}</button>
                 </div>
               </nb-card-header>
             </nb-card>
@@ -44,10 +44,10 @@
               <nb-card-header>
                 <div class="d-flex justify-content-between">
                   <h4>Vulnerabilities:</h4>
-                  <button nbButton status="danger">{{ assetDashboardModel?.vulnerabilities.crit}}</button>
-                  <button nbButton status="warning">{{ assetDashboardModel?.vulnerabilities.high}}</button>
-                  <button nbButton status="info">{{ assetDashboardModel?.vulnerabilities.medium}}</button>
-                  <button nbButton status="primary">{{ assetDashboardModel?.vulnerabilities.low}}</button>
+                  <button nbTooltip="Opened Critical Vulnerabilities" nbButton status="danger">{{ assetDashboardModel?.vulnerabilities.crit}}</button>
+                  <button nbTooltip="Opened High Vulnerabilities" nbButton status="warning">{{ assetDashboardModel?.vulnerabilities.high}}</button>
+                  <button nbTooltip="Opened Medium Vulnerabilities" nbButton status="info">{{ assetDashboardModel?.vulnerabilities.medium}}</button>
+                  <button nbTooltip="Opened Low Vulnerabilities" nbButton status="primary">{{ assetDashboardModel?.vulnerabilities.low}}</button>
                 </div>
               </nb-card-header>
             </nb-card>
@@ -59,15 +59,27 @@
               <nb-card-body>
                 <div class="row">
                   <div class="col-4">
-                    <div class="card-title" nbTooltip="test">Issues</div>
+                    <div class="card-title" >Issues</div>
                     <div class="card-subtitle">Solved issues</div>
                     <div class="avg">Total: {{ assetDashboardModel?.solvedIssues.total}}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.critPercent" status="danger">{{ assetDashboardModel?.solvedIssues.crit}}</nb-progress-bar>
-                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.highPercent" status="warning">{{ assetDashboardModel?.solvedIssues.high}}</nb-progress-bar>
-                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.medium" status="info">{{ assetDashboardModel?.solvedIssues.medium}}</nb-progress-bar>
-                      <nb-progress-bar [value]="assetDashboardModel?.solvedIssues.lowPercent" status="primary">{{ assetDashboardModel?.solvedIssues.low}}</nb-progress-bar>
+                      <nb-progress-bar [nbTooltip]="assetDashboardModel?.solvedIssues.crit + ' Critical Issues Solved (' + assetDashboardModel?.solvedIssues.critPercent + '%)'"
+                                       [value]="assetDashboardModel?.solvedIssues.critPercent" status="danger">
+                        {{ assetDashboardModel?.solvedIssues.crit}}
+                      </nb-progress-bar>
+                      <nb-progress-bar [nbTooltip]="assetDashboardModel?.solvedIssues.high + ' High Issues Solved (' + assetDashboardModel?.solvedIssues.highPercent + '%)'"
+                                       [value]="assetDashboardModel?.solvedIssues.highPercent" status="warning">
+                        {{ assetDashboardModel?.solvedIssues.high}}
+                      </nb-progress-bar>
+                      <nb-progress-bar [nbTooltip]="assetDashboardModel?.solvedIssues.medium + ' Medium Issues Solved (' + assetDashboardModel?.solvedIssues.mediumPercent + '%)'"
+                                       [value]="assetDashboardModel?.solvedIssues.medium" status="info">
+                        {{ assetDashboardModel?.solvedIssues.medium}}
+                      </nb-progress-bar>
+                      <nb-progress-bar [nbTooltip]="assetDashboardModel?.solvedIssues.low + ' Low Issues Solved (' + assetDashboardModel?.solvedIssues.lowPercent + '%)'"
+                                       [value]="assetDashboardModel?.solvedIssues.lowPercent" status="primary">
+                        {{ assetDashboardModel?.solvedIssues.low}}
+                      </nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
@@ -83,10 +95,22 @@
                     <div class="avg">Avg: {{ assetDashboardModel?.timeToResolve.total}}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.critPercent" status="danger">{{ assetDashboardModel?.timeToResolve.crit}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.highPercent" status="warning">{{ assetDashboardModel?.timeToResolve.high}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.mediumPercent" status="info">{{ assetDashboardModel?.timeToResolve.mediumPercent}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.timeToResolve.lowPercent" status="primary">{{ assetDashboardModel?.timeToResolve.low}}</nb-progress-bar>
+                    <nb-progress-bar [nbTooltip]="'Average time to resolve Critical issues: ' + assetDashboardModel?.timeToResolve.crit" [value]="assetDashboardModel?.timeToResolve.critPercent"
+                                     status="danger">
+                      {{ assetDashboardModel?.timeToResolve.crit}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [nbTooltip]="'Average time to resolve High issues: ' + assetDashboardModel?.timeToResolve.high" [value]="assetDashboardModel?.timeToResolve.highPercent"
+                                     status="warning">
+                      {{ assetDashboardModel?.timeToResolve.high}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [nbTooltip]="'Average time to resolve Medium issues: ' + assetDashboardModel?.timeToResolve.medium" [value]="assetDashboardModel?.timeToResolve.mediumPercent"
+                                     status="info">
+                      {{ assetDashboardModel?.timeToResolve.mediumPercent}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [nbTooltip]="'Average time to resolve Low issues: ' + assetDashboardModel?.timeToResolve.low" [value]="assetDashboardModel?.timeToResolve.lowPercent"
+                                     status="primary">
+                      {{ assetDashboardModel?.timeToResolve.low}}
+                    </nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
@@ -102,10 +126,26 @@
                     <div class="avg">Total: {{ assetDashboardModel?.reviewedIssues.total }}</div>
                   </div>
                   <div class="col-8 d-flex flex-column justify-content-center0.00.">
-                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.critPercent" status="danger">{{assetDashboardModel?.reviewedIssues.crit}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.highPercent" status="warning">{{assetDashboardModel?.reviewedIssues.high}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.mediumPercent" status="info">{{assetDashboardModel?.reviewedIssues.medium}}</nb-progress-bar>
-                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.lowPercent" status="primary">{{assetDashboardModel?.reviewedIssues.low}}</nb-progress-bar>
+                    <nb-progress-bar [nbTooltip]="assetDashboardModel?.reviewedIssues.crit + ' Critical Issues has been revieved (' + assetDashboardModel?.reviewedIssues.critPercent + '%)'"
+                                     [value]="assetDashboardModel?.reviewedIssues.critPercent"
+                                     status="danger">
+                      {{assetDashboardModel?.reviewedIssues.crit}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.highPercent"
+                                     [nbTooltip]="assetDashboardModel?.reviewedIssues.high + ' High Issues has been revieved (' + assetDashboardModel?.reviewedIssues.highPercent + '%)'"
+                                     status="warning">
+                      {{assetDashboardModel?.reviewedIssues.high}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.mediumPercent"
+                                     [nbTooltip]="assetDashboardModel?.reviewedIssues.medium + ' Medium Issues has been revieved (' + assetDashboardModel?.reviewedIssues.mediumPercent + '%)'"
+                                     status="info">
+                      {{assetDashboardModel?.reviewedIssues.medium}}
+                    </nb-progress-bar>
+                    <nb-progress-bar [value]="assetDashboardModel?.reviewedIssues.lowPercent"
+                                     [nbTooltip]="assetDashboardModel?.reviewedIssues.low + ' Low Issues has been revieved (' + assetDashboardModel?.reviewedIssues.lowPercent + '%)'"
+                                     status="primary">
+                      {{assetDashboardModel?.reviewedIssues.low}}
+                    </nb-progress-bar>
                   </div>
                 </div>
               </nb-card-body>
