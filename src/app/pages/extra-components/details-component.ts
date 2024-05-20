@@ -262,6 +262,7 @@ export class DetailsComponent implements ViewCell, OnInit {
     });
   }
   ngOnInit(): void {
+
   }
 
   openWindowWithBackdrop() {

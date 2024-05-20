@@ -18,7 +18,7 @@ export class ClassificationColorComponent implements ViewCell, OnInit {
     } else if (this.rowData.grade === 0) {
       this.severity = 'Not Relevant';
       this.class = 'badge-success';
-    } else if (this.rowData.grade === -1) {
+    } else {
       this.severity = 'Not Set';
       this.class = 'badge-info';
     }

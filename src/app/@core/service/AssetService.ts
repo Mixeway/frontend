@@ -9,6 +9,7 @@ import {VulnTrendChart} from '../Model/VulnTrendChart';
 import {CiOperations} from '../Model/CiOperations';
 import {NewVulnModel} from '../Model/NewVulnModel';
 import {AssetDashboardModel} from '../Model/AssetDashboardModel';
+import {Vulnerability} from '../Model/Vulnerability';
 
 @Injectable({
   providedIn: 'root',
@@ -80,6 +81,13 @@ export class AssetService {
   }
   getAssetDashboard(id, type): Observable<AssetDashboardModel> {
     return this.http.get<AssetDashboardModel>('/v3/api/asset/' + id + '/' + type )
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+  getVulnerabilities(id, type): Observable<Vulnerability[]> {
+    return this.http.get<Vulnerability[]>('/v3/api/asset/' + id + '/' + type + '/vulnerabilities' )
       .pipe(
         retry(1),
         catchError(this.errorHandl),

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LocalDataSource} from 'ng2-smart-table';
 import {StatusComponent} from '../../extra-components/status-component';
 import {AlertColorComponent} from '../../extra-components/alert-color.component';
@@ -8,6 +8,8 @@ import {DetailsComponent} from '../../extra-components/details-component';
 import {VulnerabilitySourceComponent} from '../../extra-components/vulnerability-source-component';
 import {ProjectConstants} from '../../../@core/constants/ProjectConstants';
 import {LocationRendererComponent} from '../../extra-components/LocationRendererComponent';
+import {Vulnerability} from '../../../@core/Model/Vulnerability';
+import {NbOptionComponent} from '@nebular/theme';
 
 @Component({
   selector: 'ngx-asset-vulns-table',
@@ -15,47 +17,13 @@ import {LocationRendererComponent} from '../../extra-components/LocationRenderer
   styleUrls: ['./asset-vulns-table.component.scss'],
 })
 export class AssetVulnsTableComponent implements OnInit {
+  @Input() vulns: Vulnerability[];
+  @Input() defBranch: string;
+  branches: string[];
   settings: any;
   constants: ProjectConstants = new ProjectConstants();
   source: LocalDataSource;
-  data = [
-    {
-      id: 1,
-      projectId: 1,
-      name: 'CVE-123',
-      location: 'https://github.com',
-      source: 'webAppScan',
-      severity: 'Critical',
-      grade: 1,
-      status: 'new',
-      inserted: '2023-04-12 12:12:12',
-      ticketId: 123,
-    },
-    {
-      id: 2,
-      projectId: 1,
-      name: 'CVE-1234',
-      location: '/asd/dsa/asd/asd/dsa/asd/asd/dsa/asd/asd/dsa/asd/asd/dsa/asd:312',
-      source: 'codeProject',
-      severity: 'Critical',
-      grade: 0,
-      status: 'existing',
-      inserted: '2023-04-12 12:12:12',
-    },
-    {
-      id: 3,
-      projectId: 1,
-      name: 'CVE-1235',
-      location: '/dsa/dsa/dsa:321',
-      source: 'IaC',
-      severity: 'Medium',
-      grade: -1,
-      status: 'existing',
-      inserted: '2023-04-12 12:12:12',
-    },
-  ];
   constructor() {
-    this.source = new LocalDataSource(this.data);
     const that = this;
     this.settings = {
       mode: 'external',
@@ -185,7 +153,7 @@ export class AssetVulnsTableComponent implements OnInit {
               list: [
                 {value: 1, title: 'Confirmed'},
                 {value: 0, title: 'Not Relevant'},
-                {value: -1, title: 'Not Set'},
+                {value: 2, title: 'Not Set'},
               ],
             },
           },
@@ -212,10 +180,43 @@ export class AssetVulnsTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.source = new LocalDataSource(this.filterVulnerabilities(this.vulns, this.defBranch));
+    this.branches = this.getUniqueCodeProjectBranchNames(this.vulns);
   }
   loadVulns() {
   }
 
   onCustomAction($event: any) {
+  }
+  // Function to select unique code project branch names from a list of vulnerabilities
+  getUniqueCodeProjectBranchNames(vulnerabilities: Vulnerability[]): string[] {
+    // Create a set to store unique names
+    const uniqueNames = new Set<string>();
+
+    // Iterate through each vulnerability
+    vulnerabilities.forEach(vulnerability => {
+      // If the vulnerability has a code project branch, add its name to the set
+      if (vulnerability.codeProjectBranch) {
+        uniqueNames.add(vulnerability.codeProjectBranch.name);
+      }
+    });
+
+    // Convert the set to an array and return it
+    return Array.from(uniqueNames);
+  }
+
+  changeBranch(event: NbOptionComponent<string>) {
+    this.source = new LocalDataSource(this.filterVulnerabilities(this.vulns, event + ''));
+
+  }
+  filterVulnerabilities(vulnerabilities: Vulnerability[], branch: string): Vulnerability[] {
+    return vulnerabilities.filter(vuln => {
+      if (!vuln.codeProjectBranch || vuln.codeProjectBranch.name === '') {
+        return true;
+      } else if (vuln.codeProjectBranch.name === branch) {
+        return true;
+      }
+      return false;
+    });
   }
 }

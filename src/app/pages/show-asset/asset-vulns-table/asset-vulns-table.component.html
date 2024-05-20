@@ -1,3 +1,9 @@
+<label for="branch_id" *ngIf="branches">Branch: </label>
+<nb-select id="branch_id" [(selected)]="defBranch" *ngIf="branches" size="large" (selectedChange)="changeBranch($event)">
+  <nb-option *ngFor="let branch of branches" [value]="branch" >
+    {{ branch}}
+  </nb-option>
+</nb-select><br/><br/>
 <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustomAction($event)"></ng2-smart-table>
 <br/>
 <div class="row">

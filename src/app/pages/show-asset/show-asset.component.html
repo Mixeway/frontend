@@ -13,12 +13,12 @@
 
                 <!-- Icon and Location -->
                 <a nbButton [href]="assetDashboardModel?.target" target="_blank" style="display: flex; align-items: center;">
-                  <nb-icon icon="{{ project.icon }}"></nb-icon>
+                  <nb-icon icon="{{ icon }}"></nb-icon>
                   <span style="margin-left: 0.5rem;">{{ assetDashboardModel?.target }}</span>
                 </a>
 
                 <!-- Date of Creation -->
-                <small style="margin-top: 1rem;">Default branch: master</small>
+                <small *ngIf="assetDashboardModel?.branch" style="margin-top: 1rem;">Default branch: {{assetDashboardModel?.branch}}</small>
                 <small style="margin-top: 1rem;">Created: {{ assetDashboardModel?.created | date }}</small>
               </div>
             </nb-card-body>
@@ -163,12 +163,8 @@
 
       </nb-tab>
       <nb-tab tabTitle="Vulnerabilities" tabIcon="alert-triangle-outline" responsive>
-        <label for="branch_id">Branch: </label>
-        <nb-select id="branch_id" [(selected)]="branch" size="large">
-          <nb-option value="option1">Option 1</nb-option>
-          <nb-option value="option2">Option 2</nb-option>
-        </nb-select><br/><br/>
-        <ngx-asset-vulns-table></ngx-asset-vulns-table>
+
+        <ngx-asset-vulns-table *ngIf="extendedVulnerabilities" [vulns]="extendedVulnerabilities" [defBranch]="assetDashboardModel.branch"></ngx-asset-vulns-table>
       </nb-tab>
       <nb-tab tabTitle="Scans" tabIcon="search-outline" responsive>
         <ngx-asset-scans [assetId]="_entityId" [assetType]="assetType"></ngx-asset-scans>
