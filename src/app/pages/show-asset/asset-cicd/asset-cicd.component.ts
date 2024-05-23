@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {CiOperations} from '../../../@core/Model/CiOperations';
 
 @Component({
   selector: 'ngx-asset-cicd',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssetCicdComponent implements OnInit {
 
+  @Input() cicdOperations: CiOperations[];
   cicd: any = [
     {
       result: 'NOK',

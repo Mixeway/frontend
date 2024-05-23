@@ -219,4 +219,28 @@ export class AssetVulnsTableComponent implements OnInit {
       return false;
     });
   }
+  exportToCsv() {
+    this.source.getAll().then((data) => {
+      const csvData = this.convertToCsv(data);
+      this.downloadCsv(csvData, 'vulnerabilities.csv');
+    });
+  }
+
+  convertToCsv(data: any[]): string {
+    const replacer = (key, value) => (value === null ? '' : value);
+    const header = Object.keys(data[0]);
+    const csv = data.map(row =>
+      header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','),
+    );
+    csv.unshift(header.join(','));
+    return csv.join('\r\n');
+  }
+
+  downloadCsv(csvData: string, filename: string) {
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+  }
 }

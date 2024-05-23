@@ -6,7 +6,7 @@
     <div class="info">
       <div class="h4 value">{{ successDeployment }} jobs secure</div>
       <div class="details subtitle-2"><span>out of</span> {{ allDeployments}}</div>
-      <div class="details subtitle-2"><a role="button" (click)="showCIOperatonsDetails()" style="text-decoration: underline; text-decoration-color: #7ACAFF">View more info</a></div>
+<!--      <div class="details subtitle-2"><a role="button" (click)="showCIOperatonsDetails()" style="text-decoration: underline; text-decoration-color: #7ACAFF">View more info</a></div>-->
     </div>
   </nb-card-body>
   <nb-card-body *ngIf="!ciOperations[0]">
@@ -17,7 +17,7 @@
 
 </nb-card>
 
-<ng-template #ciOperations let-data let-ref="dialogRef">
+<ng-template #ciOperationsx let-data let-ref="dialogRef">
   <nb-card size="medium">
     <nb-card-header>CI Operations</nb-card-header>
     <nb-card-body>

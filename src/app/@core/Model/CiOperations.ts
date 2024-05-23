@@ -1,4 +1,5 @@
 import {CodeGroup, CodeProject} from './Codes';
+import {Scan} from './Scan';
 
 export class CiOperations {
   id: number;
@@ -18,4 +19,10 @@ export class CiOperations {
   sastScan: boolean;
   imageScan: boolean;
   openSourceScan: boolean;
+  secretScan: Scan;
+  iacScan: Scan;
+  codeScan: Scan;
+  dastScan: Scan;
+  scaScan: Scan;
+  branch: string;
 }

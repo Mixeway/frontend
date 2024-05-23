@@ -15,41 +15,47 @@
     <nb-card class="list-card" size="large">
       <nb-card-header>CICD Operations</nb-card-header>
       <nb-list>
-        <nb-list-item *ngFor="let scan of cicd">
+        <nb-list-item *ngFor="let scan of cicdOperations">
           <div class="row col-md-12 d-flex align-items-center">
-            <div class="col-md-4 date-source d-flex justify-content-center">
-              <button nbButton [status]="scan.result === 'OK' ? 'success' : 'danger'">{{scan.result === 'OK' ? 'Success' : 'Failed' }}</button>
+            <div class="col-md-3 date-source d-flex justify-content-center">
+              <button nbButton [status]="scan.result === 'Ok' ? 'success' : 'danger'">{{scan.result === 'Ok' ? 'Success' : 'Failed' }}</button>
             </div>
-            <div class="col-md-4 branch-commit text-center">
+            <div class="col-md-3 branch-commit text-center">
               <span>Branch: {{scan.branch}}</span><br/>
-              <small>CommitId: {{scan.commitid}}</small><br/>
-              <small> {{scan.date}}</small>
+              <small>CommitId: {{scan.commitId}}</small><br/>
+              <small> {{scan.inserted}}</small>
             </div>
-            <div class="col-md-4 vulnerabilities">
+            <div class="col-md-6 vulnerabilities">
               <div class="row">
-                <div class="col-md-3 d-flex flex-column align-items-center">
-                  <button nbButton shape="semi-round" [status]="scan.sast ? 'success' : 'danger'">
-                    <nb-icon [icon]="scan.sast ? 'done-all-outline' : 'close-outline'"></nb-icon>
+                <div class="col-md-2 d-flex flex-column align-items-center">
+                  <button nbButton shape="semi-round" [status]="scan.codeScan ? 'success' : 'danger'">
+                    <nb-icon [icon]="scan.codeScan ? 'done-all-outline' : 'close-outline'"></nb-icon>
                   </button><br/>
                   <small>SAST</small>
                 </div>
-                <div class="col-md-3 d-flex flex-column align-items-center">
-                  <button nbButton shape="semi-round" [status]="scan.dast ? 'success' : 'danger'">
-                    <nb-icon [icon]="scan.dast ? 'done-all-outline' : 'close-outline'"></nb-icon>
+                <div class="col-md-2 d-flex flex-column align-items-center">
+                  <button nbButton shape="semi-round" [status]="scan.dastScan ? 'success' : 'danger'">
+                    <nb-icon [icon]="scan.dastScan ? 'done-all-outline' : 'close-outline'"></nb-icon>
                   </button><br/>
                   <small>DAST</small>
                 </div>
-                <div class="col-md-3 d-flex flex-column align-items-center">
-                  <button nbButton shape="semi-round" [status]="scan.sca ? 'success' : 'danger'">
-                    <nb-icon [icon]="scan.sca ? 'done-all-outline' : 'close-outline'"></nb-icon>
+                <div class="col-md-2 d-flex flex-column align-items-center">
+                  <button nbButton shape="semi-round" [status]="scan.scaScan ? 'success' : 'danger'">
+                    <nb-icon [icon]="scan.scaScan ? 'done-all-outline' : 'close-outline'"></nb-icon>
                   </button><br/>
                   <small>SCA</small>
                 </div>
-                <div class="col-md-3 d-flex flex-column align-items-center">
-                  <button nbButton shape="semi-round" [status]="scan.secrets ? 'success' : 'danger'">
-                    <nb-icon [icon]="scan.secrets ? 'done-all-outline' : 'close-outline'"></nb-icon>
+                <div class="col-md-2 d-flex flex-column align-items-center">
+                  <button nbButton shape="semi-round" [status]="scan.secretScan ? 'success' : 'danger'">
+                    <nb-icon [icon]="scan.secretScan ? 'done-all-outline' : 'close-outline'"></nb-icon>
                   </button><br/>
                   <small>Secrets</small>
+                </div>
+                <div class="col-md-2 d-flex flex-column align-items-center">
+                  <button nbButton shape="semi-round" [status]="scan.iacScan ? 'success' : 'danger'">
+                    <nb-icon [icon]="scan.iacScan ? 'done-all-outline' : 'close-outline'"></nb-icon>
+                  </button><br/>
+                  <small>IaC</small>
                 </div>
               </div>
             </div>
