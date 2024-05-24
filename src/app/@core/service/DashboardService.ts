@@ -11,6 +11,7 @@ import {SessionOwner} from '../Model/SessionOwner';
 import {SearchResponse} from '../Model/SearchResponse';
 import {DashboardTopStatistics} from '../Model/DashboardTopStatistics';
 import {DashboardStat} from '../Model/DashboardStat';
+import {Metric} from '../Model/Metric';
 
 
 @Injectable({
@@ -103,6 +104,21 @@ export class DashboardService {
   moergeProjects(source, destination) {
     return this.http.get<null>(environment.backend + '/dashboard/merge/project/source/'
       + source + '/destination/' + destination)
+      .pipe(
+        retry(1),
+        catchError(this.showErrorOnDelete),
+      );
+  }
+
+  getMetric():  Observable<Metric> {
+    return this.http.get<Metric>('/v3/api/dashboard/metric')
+      .pipe(
+        retry(1),
+        catchError(this.showErrorOnDelete),
+      );
+  }
+  getProjectMetric(id: number):  Observable<Metric> {
+    return this.http.get<Metric>('/v3/api/dashboard/project/' + id + '/metric')
       .pipe(
         retry(1),
         catchError(this.showErrorOnDelete),

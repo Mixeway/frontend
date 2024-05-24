@@ -10,6 +10,7 @@ import {AllSourceDataChart} from '../../@core/Model/AllSourceDataChart';
 import {Project} from '../../@core/Model/Project';
 import {DashboardStat} from '../../@core/Model/DashboardStat';
 import {NbThemeService} from '@nebular/theme';
+import {Metric} from '../../@core/Model/Metric';
 
 class EChartsOption {
 }
@@ -31,6 +32,7 @@ export class MixerDashboardComponent implements OnInit {
 
   projectOptions: EChartsOption;
   vulnOptions: EChartsOption;
+  metric: Metric;
 
   themeSubscription: any;
   projects: Project[] = [];
@@ -41,6 +43,12 @@ export class MixerDashboardComponent implements OnInit {
   settings: any;
   loading: boolean = true;
   dashboardStat: DashboardStat;
+  vulnNumberColor: string;
+  fixedVulnColor: string;
+  ttmColor: string;
+  cicdColor: string;
+  secureCicd: string;
+  btcolor: string;
   constructor( private showProjectService: ShowProjectService,
                private dashboardService: DashboardService,
                private theme: NbThemeService) {
@@ -51,6 +59,7 @@ export class MixerDashboardComponent implements OnInit {
     this.loadTrendData();
     this.loadSourceData();
     this.loadStatistics();
+    this.loadMetrics();
     this.getStats();
     this.drawChart();
 
@@ -162,4 +171,49 @@ export class MixerDashboardComponent implements OnInit {
     });
   }
 
+  private loadMetrics() {
+    return this.dashboardService.getMetric().subscribe(data => {
+      this.metric = data;
+      if (this.metric.activeVulnAvg < 10) {
+        this.vulnNumberColor = 'success';
+      } else if (this.metric.activeVulnAvg < 30) {
+        this.vulnNumberColor = 'warning';
+      } else {
+        this.vulnNumberColor = 'danger';
+      }
+      if (this.metric.fixedVulnPercent < 20) {
+        this.fixedVulnColor = 'danger';
+      } else if (this.metric.activeVulnAvg < 60) {
+        this.fixedVulnColor = 'warning';
+      } else {
+        this.fixedVulnColor = 'success';
+      }
+      if (this.metric.fixTime < 10) {
+        this.ttmColor = 'success';
+      } else {
+        this.ttmColor = 'danger';
+      }
+      if (this.metric.projectWithCicdPercent < 20) {
+        this.cicdColor = 'danger';
+      } else if (this.metric.projectWithCicdPercent < 50) {
+        this.cicdColor = 'warning';
+      } else {
+        this.cicdColor = 'success';
+      }
+      if (this.metric.secureJobPercent < 30) {
+        this.secureCicd = 'danger';
+      } else if (this.metric.secureJobPercent < 80) {
+        this.secureCicd = 'warning';
+      } else {
+        this.secureCicd = 'success';
+      }
+      if (this.metric.bugTrackingIntegratedPercent < 30) {
+        this.btcolor = 'danger';
+      } else if (this.metric.bugTrackingIntegratedPercent < 80) {
+        this.btcolor = 'warning';
+      } else {
+        this.btcolor = 'success';
+      }
+    });
+  }
 }

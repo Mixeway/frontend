@@ -78,12 +78,12 @@
         </nb-tab>
         <nb-tab tabTitle="Metrics" tabIcon="activity-outline">
           <div class="metrics-container">
-            <ngx-metric class="metric-card col-md-4" title="Number of active vulnerabilities" image="success1.png" accent="danger" topLine="123" bottomLine="Average X per project"></ngx-metric>
-            <ngx-metric class="metric-card col-md-4" title="Number of Fixed vulnerabilities" image="001-no-passing.png" accent="danger" topLine="1" bottomLine="Which is 12% of all"></ngx-metric>
-            <ngx-metric class="metric-card col-md-4" title="Average fix time" image="success_time.png" accent="success" topLine="1" bottomLine="Which is just 5% of all"></ngx-metric>
-            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that verify security" image="success3.png" accent="success" topLine="1" bottomLine="Which is just 5% of all"></ngx-metric>
-            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that are secure" image="005-flammable.png" accent="danger" topLine="1" bottomLine="Which is just 5% of all"></ngx-metric>
-            <ngx-metric class="metric-card col-md-4" title="Number of projects with Bug Tracking integrated" image="nuclear_hires.png" accent="warning" topLine="1" bottomLine="Which is just 5% of all"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of active vulnerabilities" image="success1.png" [accent]="vulnNumberColor" [topLine]="metric?.activeVulnNo+''" [bottomLine]="'Average: '+ metric?.activeVulnAvg+' vulnerabilities per project'"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of Fixed vulnerabilities" image="001-no-passing.png" [accent]="fixedVulnColor" [topLine]="metric?.fixedVulnNo+''" [bottomLine]="'Which is ' + metric?.fixedVulnPercent + '% of all vulnerabilities'"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Average fix time [days]" image="success_time.png" [accent]="ttmColor" [topLine]="metric?.fixTime+''" [bottomLine]="'Which is ' + (metric?.fixTime < 10 ? 'Great! keep going!' : 'not so good, focus on fixing the vulnerabilities') "></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that verify security" image="success3.png" [accent]="cicdColor" [topLine]="metric?.projectWithCicdNo+''" [bottomLine]="'Which is ' + metric?.projectWithCicdPercent + '% of all projects'"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of CICD jobs that are secure" image="005-flammable.png" [accent]="secureCicd" [topLine]="metric?.secureJobNo+''" [bottomLine]="'Which is ' + metric?.secureJobPercent + '% of all jobs'"></ngx-metric>
+            <ngx-metric class="metric-card col-md-4" title="Number of projects with Bug Tracking integrated" image="nuclear_hires.png" [accent]="btcolor" [topLine]="metric?.bugTrackingIntegratedNo+''" [bottomLine]="'Which covers ' + metric?.bugTrackingIntegratedPercent + '% of all projects'"></ngx-metric>
           </div>
         </nb-tab>
 

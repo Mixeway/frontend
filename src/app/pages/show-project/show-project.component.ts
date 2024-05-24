@@ -15,6 +15,8 @@ import {Severities} from '../../@core/Model/Severities';
 import {ProjectStats} from '../../@core/Model/ProjectStats';
 import {ProjectUser} from '../../@core/Model/ProjectUser';
 import {Codes} from '../../@core/Model/Codes';
+import {Metric} from '../../@core/Model/Metric';
+import {DashboardService} from '../../@core/service/DashboardService';
 
 
 @Component({
@@ -57,10 +59,18 @@ export class ShowProjectComponent implements OnInit {
   private vulnAuditorForm: any;
   private projectUserForm: any;
   projectUser: ProjectUser = new ProjectUser;
+  globalMetric: Metric;
+  projectMetric: Metric;
+  vulnNumberColor: string;
+  fixedVulnColor: string;
+  ttmColor: string;
+  cicdColor: string;
+  secureCicd: string;
+  btcolor: string;
   constructor(private showProjectService: ShowProjectService, private _route: ActivatedRoute, private router: Router,
               private cookieService: CookieService, private dialogService: NbDialogService,
               private formBuilder: FormBuilder, private toast: Toast, private windowService: NbWindowService,
-              private cdRef: ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef, private dashboardService: DashboardService) {
     this._entityId = +this._route.snapshot.paramMap.get('projectid');
     if (!this._entityId) {
       this.router.navigate(['/pages/dashboard']);
@@ -73,6 +83,7 @@ export class ShowProjectComponent implements OnInit {
     this.loadProjectStats();
     this.loadCodes();
     this.updateOffset();
+    this.loadProjectMetric();
     this.vulnAuditorForm = this.formBuilder.group({
       enableVulnAuditor: this.projectInfo.vulnAuditorEnable,
       dclocation: this.projectInfo.networkdc,
@@ -268,5 +279,49 @@ export class ShowProjectComponent implements OnInit {
     } else if (this.assetNumber === 5) {
       this.offset = 1;
     }
+  }
+
+  private loadProjectMetric() {
+    return this.dashboardService.getMetric().subscribe(data => {
+      this.globalMetric = data;
+      return this.dashboardService.getProjectMetric(this._entityId).subscribe(projectMetric => {
+        this.projectMetric = projectMetric;
+        if (this.projectMetric.activeVulnAvg < this.globalMetric.activeVulnAvg) {
+          this.vulnNumberColor = 'success';
+        } else {
+          this.vulnNumberColor = 'danger';
+        }
+
+        if (this.projectMetric.fixedVulnPercent < 20) {
+          this.fixedVulnColor = 'danger';
+        } else if (this.projectMetric.activeVulnAvg < 60) {
+          this.fixedVulnColor = 'warning';
+        } else {
+          this.fixedVulnColor = 'success';
+        }
+        if (this.projectMetric.fixTime < 10) {
+          this.ttmColor = 'success';
+        } else {
+          this.ttmColor = 'danger';
+        }
+        if (this.projectMetric.projectWithCicdNo > 0) {
+          this.cicdColor = 'success';
+        } else {
+          this.cicdColor = 'danger';
+        }
+        if (this.projectMetric.secureJobPercent < 30) {
+          this.secureCicd = 'danger';
+        } else if (this.projectMetric.secureJobPercent < 80) {
+          this.secureCicd = 'warning';
+        } else {
+          this.secureCicd = 'success';
+        }
+        if (this.projectMetric.bugTrackingIntegratedNo > 0) {
+          this.btcolor = 'success';
+        } else {
+          this.btcolor = 'danger';
+        }
+      });
+    });
   }
 }
