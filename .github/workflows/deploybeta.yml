@@ -5,10 +5,12 @@ on:
       - '*'
       - 'feature/*'
       - 'refactor/*'
+      - 'release/*'
       - '!master'
   pull_request:
     branches:
       - '*'
+      - 'release/*'
       - 'refactor/*'
       - '!master'
 jobs:
