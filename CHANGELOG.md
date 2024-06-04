@@ -1,3 +1,15 @@
+## 2.0.0 (2024-06-04)
+
+#### New Features
+* New Main Dashboard
+* New Project Dashboard
+* New Asset Dashboard
+* New History views and charts
+* New Metric charts
+
+#### Bug Fixes
+* Fixed bug related with CSV exporting of vulnerabilities
+
 ## 1.8.2 (2023-11-08)
 
 #### New Features
