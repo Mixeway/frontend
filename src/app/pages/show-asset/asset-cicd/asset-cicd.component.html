@@ -4,7 +4,7 @@
       <button nbButton status="info"><nb-icon icon="info-outline"></nb-icon>Instructions on how to configure scanning </button>
     </div>
     <div>
-      <button nbButton status="primary"><nb-icon icon="file-text-outline"></nb-icon>Generate config files </button>
+      <button nbButton status="primary" (click)="showConfig()"><nb-icon icon="file-text-outline"></nb-icon>Generate config files </button>
     </div>
   </div>
 </div>
@@ -65,3 +65,29 @@
     </nb-card>
   </div>
 </div>
+
+
+<ng-template #showConfigTemplate let-data let-ref="dialogRef">
+  <nb-card>
+    <nb-card-header>Config for asset</nb-card-header>
+    <nb-card-body>
+      <div>This is config that has to be put in <pre>mixeway.yaml</pre> file in root directory of GIT repository in order to
+      properly perform scanning.<br/> Make sure to remove all comments and fill proper values.
+      In some scenarios You will have to generate link between SCA scanner and mixeway before proceeding.</div>
+      <br/>
+      <div>This one represent configuration for static analysis. If You would like to combine SAST and DAST scanns You need to:
+      <ul>
+        <li>1. Register Web Application if You haven't already </li>
+        <li>2. Generate config for particular or every WebApp and concatenate YAML files</li>
+      </ul>
+      </div>
+
+      <pre>{{yamlString }}</pre>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton (click)="ref.close()">Close</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
+

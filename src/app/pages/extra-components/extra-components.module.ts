@@ -62,6 +62,7 @@ import {AssetTargetComponent} from './AssetTargetComponent';
 import {AssetScopeComponent} from './AssetScopeComponent';
 import {AssetVulnerabilitiesComponent} from './AssetVulnerabilityComponent';
 import {LocationRendererComponent} from './LocationRendererComponent';
+import { AssetNameTableComponent } from './asset-name-table/asset-name-table.component';
 
 const COMPONENTS = [
   ExtraComponentsComponent,
@@ -136,6 +137,7 @@ const MODULES = [
     CiOperationsListElementComponent,
     DetailsVulnsComponent,
     MetricComponent,
+    AssetNameTableComponent,
   ],
   entryComponents: [
     MixerProgresComponent,

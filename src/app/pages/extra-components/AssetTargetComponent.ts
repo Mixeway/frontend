@@ -4,8 +4,9 @@ import {ViewCell} from 'ng2-smart-table';
 @Component({
   template: `
     {{text1}}<br/>
-    <small *ngIf="text2">Default branch: {{text2}}</small><br/>
-    <small *ngIf="text3">Path: {{text3}}</small>
+    <small *ngIf="text2">Default branch: {{text2}}</small><br *ngIf="text3"/>
+    <small *ngIf="text3">Path: {{text3}}</small><br *ngIf="text4"/>
+    <small *ngIf="text4">Parent: {{text4}}</small>
   `,
 })
 export class AssetTargetComponent implements ViewCell, OnInit {
@@ -14,10 +15,14 @@ export class AssetTargetComponent implements ViewCell, OnInit {
   text1: string;
   text2: string;
   text3: string;
+  text4: string;
   ngOnInit(): void {
     if (this.rowData.type === 'codeProject') {
       this.text1 = this.rowData.target;
       this.text2 = this.rowData.branch;
+      if (this.rowData.parent !== null) {
+        this.text4 = this.rowData.parent;
+      }
     } else {
       this.text1 = this.rowData.target;
     }

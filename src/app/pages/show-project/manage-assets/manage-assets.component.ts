@@ -9,7 +9,8 @@ import {AssetVulnerabilitiesComponent} from '../../extra-components/AssetVulnera
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetService} from '../../../@core/service/AssetService';
 import {ProjectAsset} from '../../../@core/Model/ProjectAsset';
-import * as _ from 'lodash'; // Import lodash
+import * as _ from 'lodash';
+import {AssetNameTableComponent} from '../../extra-components/asset-name-table/asset-name-table.component';
 
 
 
@@ -88,6 +89,8 @@ export class ManageAssetsComponent implements OnInit {
       columns: {
         name: {
           title: 'Name',
+          type: 'custom',
+          renderComponent: AssetNameTableComponent,
           filter: true,
         },
         target: {

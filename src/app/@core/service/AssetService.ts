@@ -10,6 +10,7 @@ import {CiOperations} from '../Model/CiOperations';
 import {NewVulnModel} from '../Model/NewVulnModel';
 import {AssetDashboardModel} from '../Model/AssetDashboardModel';
 import {Vulnerability} from '../Model/Vulnerability';
+import {AssetConfig} from '../Model/AssetConfig';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +27,17 @@ export class AssetService {
     }
     return throwError(error.status);
   }
+
   saveAsset(id, form) {
     return this.http.post<ProjectUser[]>('/v3/api/asset/create/project/' + id , form)
+      .pipe(
+        retry(1),
+        catchError(this.errorHandl),
+      );
+  }
+  getAssetConfig(id, type): Observable<AssetConfig> {
+    return this.http.get<AssetConfig>('/v3/api/asset/' + id + '/' + type +
+      '/cicd/config')
       .pipe(
         retry(1),
         catchError(this.errorHandl),

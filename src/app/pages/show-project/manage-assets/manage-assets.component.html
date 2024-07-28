@@ -1,7 +1,8 @@
 <button  nbButton status="success" hero (click)="openCreateApiDialog(addAsset,'')" >
   ADD NEW <nb-icon icon="plus" pack="eva" [options]="{ animation: { type: 'shake' } }"></nb-icon>
 </button>
-
+<br/>
+<br/>
 <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustomAction($event)"></ng2-smart-table>
 
 <ng-template #addAsset let-data let-ref="dialogRef">

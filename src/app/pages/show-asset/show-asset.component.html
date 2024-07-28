@@ -170,12 +170,10 @@
         <ngx-asset-scans [assetId]="_entityId" [assetType]="assetType"></ngx-asset-scans>
       </nb-tab>
       <nb-tab tabTitle="CICD" tabIcon="play-circle-outline" responsive>
-        <ngx-asset-cicd [cicdOperations]="ciOperations"></ngx-asset-cicd>
+        <ngx-asset-cicd [cicdOperations]="ciOperations" [config]="assetConfig"></ngx-asset-cicd>
       </nb-tab>
     </nb-tabset>
 
   </nb-card-body>
 </nb-card>
-
-
 

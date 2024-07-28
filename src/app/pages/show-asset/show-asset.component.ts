@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {ShowProjectService} from '../../@core/service/ShowProjectService';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CiOperations} from '../../@core/Model/CiOperations';
@@ -9,6 +9,7 @@ import {AssetDashboardModel} from '../../@core/Model/AssetDashboardModel';
 import {ExtendedVulnerability, Vulnerability} from '../../@core/Model/Vulnerability';
 import {BugTracker} from '../../@core/Model/BugTracker';
 import {BugTrackerService} from '../../@core/service/BugTrackerService';
+import {AssetConfig} from '../../@core/Model/AssetConfig';
 
 interface Project {
   name: string;
@@ -49,6 +50,8 @@ export class ShowAssetComponent implements OnInit {
   webAppBugTracker: boolean;
   networkBugTracker: boolean;
   extendedVulnerabilities: ExtendedVulnerability[];
+  assetConfig: AssetConfig;
+
   constructor(private showProjectService: ShowProjectService, private _route: ActivatedRoute,
               private router: Router, private assetService: AssetService,
               private bugTrackerService: BugTrackerService) {
@@ -69,6 +72,7 @@ export class ShowAssetComponent implements OnInit {
     this.loadNewVulns();
     this.loadAssetDashboard();
     this.loadVulns();
+    this.loadAssetConfig();
     // this.loadBugTrackersForProject();
     if (this.assetType === 'codeProject') {
       this.icon = 'github-outline';
@@ -89,6 +93,11 @@ export class ShowAssetComponent implements OnInit {
   loadTrendChartData() {
     return this.assetService.getVulnTrendChart(this._entityId, this.assetType).subscribe(data => {
       this.vulnTrendChart = data;
+    });
+  }
+  loadAssetConfig() {
+    return this.assetService.getAssetConfig(this._entityId, this.assetType).subscribe(data => {
+      this.assetConfig = data;
     });
   }
   loadNewVulns() {

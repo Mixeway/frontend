@@ -6,6 +6,7 @@ export interface ProjectAsset {
   type: 'codeProject';
   path: string;
   scope: string[];
+  parent: string;
   vulnerabilities: {
     critical: number;
     medium: number;
