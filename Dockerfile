@@ -5,6 +5,7 @@ ARG HTTPS_PROXY=""
 
 WORKDIR /app
 COPY package.json package-lock.json  /app/
+RUN npm install -g typescript@4.8.4 # Install a compatible TypeScript version
 RUN npm install -g
 RUN cd /app && npm install
 COPY .  /app
