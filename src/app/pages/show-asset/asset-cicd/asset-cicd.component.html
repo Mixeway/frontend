@@ -70,7 +70,7 @@
 <ng-template #showConfigTemplate let-data let-ref="dialogRef">
   <nb-card>
     <nb-card-header>Config for asset</nb-card-header>
-    <nb-card-body>
+    <nb-card-body style="max-height: 60vh;overflow-y: scroll;">
       <div>This is config that has to be put in <pre>mixeway.yaml</pre> file in root directory of GIT repository in order to
       properly perform scanning.<br/> Make sure to remove all comments and fill proper values.
       In some scenarios You will have to generate link between SCA scanner and mixeway before proceeding.</div>

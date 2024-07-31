@@ -1,6 +1,10 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
+  .scrollable-form-container {
+    overflow-y: auto;
+  }
+
 
   .picture {
     background-position: center;

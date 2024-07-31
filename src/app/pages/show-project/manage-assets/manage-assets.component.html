@@ -6,9 +6,9 @@
 <ng2-smart-table [settings]="settings" [source]="source" (custom)="onCustomAction($event)"></ng2-smart-table>
 
 <ng-template #addAsset let-data let-ref="dialogRef">
-  <nb-card>
+  <nb-card [nbSpinner]="showSpinner" nbSpinnerStatus="primary" nbSpinnerSize="large">
     <nb-card-header>Create asset</nb-card-header>
-    <nb-card-body>
+    <nb-card-body style="max-height: 60vh;overflow-y: scroll;" >
       <form [formGroup]="assetForm" class="form">
         <nb-select fullWidth placeholder="Select Asset Type" formControlName="assetType" class="form-field">
           <nb-option value="sourceCodeApp">Source Code App</nb-option>
@@ -107,16 +107,23 @@
             <nb-option value="2">2</nb-option>
             <nb-option value="3">3</nb-option>
           </nb-select>
-          <button nbButton *ngIf="assetForm.get('assetType').valid" (click)="onSubmit(ref)" status="primary">Submit</button>
+          <button nbButton status="primary"
+                  [disabled]="isSubmitting"
+                  (click)="onSubmit(ref)">
+            <nb-icon *ngIf="isSubmitting" icon="spinner-outline" pack="eva" status="info"></nb-icon>
+            <span *ngIf="!isSubmitting">Submit</span>
+            <span *ngIf="isSubmitting">Submitting...</span>
+          </button>
         </div>
       </form>
     </nb-card-body>
   </nb-card>
 </ng-template>
 <ng-template #editAsset let-data let-ref="dialogRef">
-  <nb-card>
+  <nb-card >
     <nb-card-header>Edit Asset</nb-card-header>
-    <nb-card-body>
+    <nb-card-body >
+
       <form [formGroup]="editForm" (ngSubmit)="onSaveEdit(ref)" class="form">
         <div *ngIf="selectedAsset.type === 'codeProject'" class="form-group">
 

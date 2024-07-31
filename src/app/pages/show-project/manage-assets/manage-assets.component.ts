@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, NgZone, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -30,11 +30,15 @@ export class ManageAssetsComponent implements OnInit {
   editForm: FormGroup;
   _entityId: any;
   selectedAsset: any; // To store the selected asset for editing
+  isSubmitting = false;
+  showSpinner = false;
+
 
   data: ProjectAsset[] = []; // Initialize as an empty array
 
   constructor(private dialogService: NbDialogService, private toastrService: NbToastrService, private fb: FormBuilder,
-              private router: Router, private assetService: AssetService, private _route: ActivatedRoute) {
+              private router: Router, private assetService: AssetService, private _route: ActivatedRoute,
+              private cdr: ChangeDetectorRef) {
     this._entityId = +this._route.snapshot.paramMap.get('projectid');
     if (!this._entityId) {
       this.router.navigate(['/pages/dashboard']);
@@ -185,17 +189,34 @@ export class ManageAssetsComponent implements OnInit {
     }
   }
   onSubmit(ref) {
-    return this.assetService.saveAsset(this._entityId, this.assetForm.value).subscribe(() => {
+
+    // Disable the submit button and show the spinner
+    this.isSubmitting = true;
+    this.showSpinner = true;
+    this.cdr.detectChanges(); // Manually trigger change detection
+
+    // Make the request
+    this.assetService.saveAsset(this._entityId, this.assetForm.value).subscribe(
+      () => {
         this.toastrService.show('Asset created', 'Success', { status: 'success' });
-        this.clearForm();
         this.loadAssets();
         ref.close();
       },
-      () => {
+      (error) => {
         this.toastrService.show('Asset not created, check all fields', 'Failure', { status: 'danger' });
-      });
-    ref.close();
+        // Handle the error case here
+      },
+      () => {
+        // Reset the submit button and hide the spinner once the request is complete
+        this.isSubmitting = false;
+        this.showSpinner = false;
+        this.loadAssets();
+        ref.close();
+      },
+    );
   }
+
+
 
   onSaveEdit(ref) {
     if (this.editForm.valid) {
