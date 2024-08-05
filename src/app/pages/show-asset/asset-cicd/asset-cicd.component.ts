@@ -67,16 +67,28 @@ export class AssetCicdComponent implements OnInit {
   }
 
   showConfig() {
+    // Check if sca_name is null and update it if necessary
     if (this.config.code.sca_name === null) {
-      this.config.code.sca_name = '# Fill with proper sca_name, create ling between Repo and SCA Project. SCA_NAME can be filled only on root elements or on all childs apps';
+      this.config.code.sca_name = '# Fill with proper sca_name';
     }
-    for (const app of this.config.code.apps) {
-      if (app.sca_name === null ) {
-        app.sca_name = '# Fill it';
+
+    // Check if apps array is empty or contains elements
+    if (this.config.code.apps.length === 0) {
+      // Remove the apps attribute if the array is empty
+      delete this.config.code.apps;
+    } else {
+      // Iterate over apps array and update sca_name if necessary
+      for (const app of this.config.code.apps) {
+        if (app.sca_name === null) {
+          app.sca_name = '# Fill it';
+        }
       }
     }
 
+    // Convert the updated config object to YAML
     this.yamlString = this.yamlService.convertObjectToYaml(this.config);
+
+    // Open the dialog to show the config
     this.dialogService.open(this.showConfigTemplate);
   }
 }
