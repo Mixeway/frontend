@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AlertColorComponent} from '../../extra-components/alert-color.component';
 import {DetailsComponent} from '../../extra-components/details-component';
 import {DescriptionToggleComponent} from '../../extra-components/description-toggle.component';
@@ -24,6 +24,7 @@ import {VulnLocationComponent} from '../../extra-components/vuln-location-compon
   selector: 'ngx-details-tables',
   templateUrl: './details-tables.component.html',
   styleUrls: ['./details-tables.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   entryComponents: [AlertColorComponent, DetailsComponent, DescriptionToggleComponent, AuditResultColorComponent,
     AnalysisColorComponent, BugComponent, VulnerabilitySourceComponent, StatusComponent, ClassificationColorComponent],
 })
@@ -128,6 +129,10 @@ export class DetailsTablesComponent implements OnInit {
     const that = this;
     this.vulnerabilitiesSettings = {
       actions: false,
+      pager: {
+        display: true,
+        perPage: 50, // Adjust the number of items per page as needed
+      },
       columns: {
         details: {
           title: 'Details',
