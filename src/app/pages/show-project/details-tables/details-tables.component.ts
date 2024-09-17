@@ -129,10 +129,6 @@ export class DetailsTablesComponent implements OnInit {
     const that = this;
     this.vulnerabilitiesSettings = {
       actions: false,
-      pager: {
-        display: true,
-        perPage: 50, // Adjust the number of items per page as needed
-      },
       columns: {
         details: {
           title: 'Details',
