@@ -36,19 +36,19 @@
 <div class="row">
   <div class="col-md-12">
     <nb-card >
-      <nb-tabset (changeTab)="onTabChange($event)">
+      <nb-tabset>
         <nb-tab tabTitle="Assets" tabIcon="list-outline">
-          <ngx-manage-assets *ngIf="assetsDataLoaded" [projectName]="risk?.projectName"></ngx-manage-assets>
+          <ngx-manage-assets [projectName]="risk?.projectName"></ngx-manage-assets>
         </nb-tab>
 
         <nb-tab tabTitle="All Vulnerabilities" tabIcon="browser-outline" [badgeText]="vulnsNumber" [badgeStatus]="vulnsColor" badgePosition="center end" >
-          <ngx-details-tables id="detailsTables" *ngIf="showDetailsTemplate && vulnerabilitiesDataLoaded"></ngx-details-tables>
+          <ngx-details-tables id="detailsTables" *ngIf="showDetailsTemplate"></ngx-details-tables>
 
         </nb-tab>
         <nb-tab tabTitle="Statistics" tabIcon="pie-chart-outline" >
-          <ngx-trend-chart [vulnTrendChart]="vulnTrendChart" *ngIf="showDetailsTemplate && vulnTrendChart && statisticsDataLoaded" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
+          <ngx-trend-chart [vulnTrendChart]="vulnTrendChart" *ngIf="showDetailsTemplate && vulnTrendChart" [severities]="severities" [showDetailsTemplate]="showDetailsTemplate" [class.hidden]="!showConfigTemplate"></ngx-trend-chart>
         </nb-tab>
-        <nb-tab *ngIf="metricsDataLoaded" tabTitle="Metrics" tabIcon="activity-outline">
+        <nb-tab tabTitle="Metrics" tabIcon="activity-outline">
           <div class="metrics-container">
             <ngx-metric class="metric-card col-md-4" title="Number of active vulnerabilities" image="success1.png" [accent]="vulnNumberColor" [topLine]="projectMetric?.activeVulnNo+''" [bottomLine]="projectMetric?.activeVulnNo > globalMetric?.activeVulnAvg ? 'Which is more then average:' + globalMetric?.activeVulnAvg : 'Which is better then average:' + globalMetric?.activeVulnAvg "></ngx-metric>
             <ngx-metric class="metric-card col-md-4" title="Number of Fixed vulnerabilities" image="001-no-passing.png" [accent]="fixedVulnColor" [topLine]="projectMetric?.fixedVulnNo+''" [bottomLine]="'Which is ' + projectMetric?.fixedVulnPercent + '% of all vulnerabilities'"></ngx-metric>
@@ -107,7 +107,7 @@
   <nb-card>
     <nb-card-header>Starting point</nb-card-header>
     <nb-card-body>It looks like its starting point for this project. It is all set up. All You need to do is perform some scans.
-    Using Mixeway Scanner is pretty easy:
+      Using Mixeway Scanner is pretty easy:
       <br/><br/>
       <code>
         > docker pull mixeway/scanner:latest<br/>
@@ -119,5 +119,4 @@
     </nb-card-footer>
   </nb-card>
 </ng-template>
-
 

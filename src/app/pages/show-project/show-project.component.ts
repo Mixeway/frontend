@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {Risk} from '../../@core/Model/Risk';
 import {ShowProjectService} from '../../@core/service/ShowProjectService';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -14,7 +6,7 @@ import {CookieService} from 'ngx-cookie-service';
 import {ProjectConstants} from '../../@core/constants/ProjectConstants';
 import {ScannerType} from '../../@core/Model/Scanner';
 import {CiOperations} from '../../@core/Model/CiOperations';
-import {NbDialogService, NbTabComponent, NbWindowService} from '@nebular/theme';
+import {NbDialogService, NbWindowService} from '@nebular/theme';
 import {FormBuilder} from '@angular/forms';
 import {Toast} from '../../@core/utils/Toast';
 import {ProjectInfo} from '../../@core/Model/ProjectInfo';
@@ -31,7 +23,6 @@ import {DashboardService} from '../../@core/service/DashboardService';
   selector: 'ngx-show-project',
   templateUrl: './show-project.component.html',
   styleUrls: ['./show-project.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShowProjectComponent implements OnInit {
   @ViewChild('vulnAuditorSettings')
@@ -65,12 +56,6 @@ export class ShowProjectComponent implements OnInit {
   vulnsNumber: string = '0';
   vulnsColor: string = 'success';
 
-  assetsDataLoaded = false;
-  vulnerabilitiesDataLoaded = false;
-  statisticsDataLoaded = false;
-  metricsDataLoaded = false;
-
-
   private vulnAuditorForm: any;
   private projectUserForm: any;
   projectUser: ProjectUser = new ProjectUser;
@@ -94,11 +79,11 @@ export class ShowProjectComponent implements OnInit {
     this.loadScannerTypes();
     this.loadProjectInfo();
     this.loadCiOperations();
-    // this.loadTrendChartData();
-    // this.loadProjectStats();
-    // this.loadCodes();
+    this.loadTrendChartData();
+    this.loadProjectStats();
+    this.loadCodes();
     this.updateOffset();
-    // this.loadProjectMetric();
+    this.loadProjectMetric();
     this.vulnAuditorForm = this.formBuilder.group({
       enableVulnAuditor: this.projectInfo.vulnAuditorEnable,
       dclocation: this.projectInfo.networkdc,
@@ -177,16 +162,16 @@ export class ShowProjectComponent implements OnInit {
         this.constants.PROJECT_CARD_AUDIT_TEXT,
         this.risk.audit, this.risk.auditRisk);
       this.openSourceCard = this.riskCardBuilder(this.constants.PROJECT_CARD_OPENSOURCE_TITLE,
-          this.constants.PROJECT_CARD_OPENSOURCE_TEXT,
-          this.risk.openSourceLibs, this.risk.openSourceRisk);
+        this.constants.PROJECT_CARD_OPENSOURCE_TEXT,
+        this.risk.openSourceLibs, this.risk.openSourceRisk);
       if (this.risk?.webAppNumber === 0 &&
         this.risk?.codeRepoNumber === 0 &&
         this.risk?.assetNumber === 0 &&
         this.risk?.audit === 0) {
-          // this.windowService.open(
-          //   this.showInstructions,
-          //   { title: 'First step instruction', context: { text: 'some text to pass into template' } },
-          // );
+        // this.windowService.open(
+        //   this.showInstructions,
+        //   { title: 'First step instruction', context: { text: 'some text to pass into template' } },
+        // );
       }
     });
   }
@@ -204,7 +189,7 @@ export class ShowProjectComponent implements OnInit {
     });
   }
   ngOnInit() {
-    // this.loadSeveritiesChart();
+    this.loadSeveritiesChart();
     this.role = this.cookieService.get('role');
     this.showConfigTemplate = this.role !== 'ROLE_ADMIN' && this.role !== 'ROLE_EDITOR_RUNNER';
     this.showVulnAuditor = true;
@@ -258,7 +243,7 @@ export class ShowProjectComponent implements OnInit {
 
 
   saveProjectUser(ref) {
-      return this.showProjectService.saveProjectUser(this._entityId, this.projectUserForm.value).subscribe(() => {
+    return this.showProjectService.saveProjectUser(this._entityId, this.projectUserForm.value).subscribe(() => {
         this.toast.showToast('success', this.constants.PROJECT_OPERATION_SUCCESS,
           'Project Settings saved successfully.');
         this.loadProjectInfo();
@@ -338,56 +323,5 @@ export class ShowProjectComponent implements OnInit {
         }
       });
     });
-  }
-
-  onTabChange(tab: NbTabComponent) {
-    switch (tab.tabTitle) {
-      case 'Assets':
-        if (!this.assetsDataLoaded) {
-          this.loadAssetsData();
-          this.assetsDataLoaded = true;
-        }
-        break;
-      case 'All Vulnerabilities':
-        if (!this.vulnerabilitiesDataLoaded) {
-          this.loadVulnerabilitiesData();
-          this.vulnerabilitiesDataLoaded = true;
-        }
-        break;
-      case 'Statistics':
-        if (!this.statisticsDataLoaded) {
-          this.loadStatisticsData();
-          this.statisticsDataLoaded = true;
-        }
-        break;
-      case 'Metrics':
-        if (!this.metricsDataLoaded) {
-          this.loadMetricsData();
-          this.metricsDataLoaded = true;
-        }
-        break;
-      // Handle other tabs
-    }
-  }
-
-  loadAssetsData() {
-    this.loadCodes();
-    // Any additional data for Assets tab
-  }
-
-  loadVulnerabilitiesData() {
-    this.loadProjectStats();
-    // Any additional data for Vulnerabilities tab
-  }
-
-  loadStatisticsData() {
-    this.loadTrendChartData();
-    this.loadSeveritiesChart();
-    // Any additional data for Statistics tab
-  }
-
-  loadMetricsData() {
-    this.loadProjectMetric();
-    // Any additional data for Metrics tab
   }
 }
